@@ -50,3 +50,13 @@ The project is ready for the owner to inspect and deploy to a Netlify preview, *
 - **Browser layout:** An in-memory Chromium harness (locally inlined HTML/CSS and embedded images) checked widths **320, 375, 390, 430, 550, 760, 768, 820, 980, 1024, 1160, 1170, 1280 and 1440px**. Confirmed the badge was on-screen, logo loaded, no horizontal document overflow, no collisions with logo/navigation/CTA/menu button, and header remained sticky when scrolled. At mobile widths, the menu could be opened and closed using Escape while the badge stayed visible.
 - **Visual snapshots:** `Zorinas-Delights-Halaal-Nav-1440-preview.png` and `Zorinas-Delights-Halaal-Nav-375-preview.png` were captured separately (not shipped as part of website source).
 - **Unverified:** Actual Vite production bundle and deployed Netlify form. `npm install` failed with DNS resolution error `EAI_AGAIN` while accessing `registry.npmjs.org`; no npm dependencies were installed. Check with `npm install && npm run build` in a working environment, then verify live Netlify form delivery.
+
+## Concept 1 identity refresh (2026-11-21)
+
+**Automated tests:** Existing 9 Node tests passed; new logo-specific tests added and passed (see `npm test`). This covers all existing product/order utility tests and the Halaal placement/copy tests as well as the new branding reference assertions.
+
+**Layout inspections:** Used Chromium with the site's current HTML and combined CSS, inlined as data for isolated layout QA because local URL navigation is blocked by this environment's browser policy. The browser confirmed the SVG assets load, the navigation elements remain separated, and there is no horizontal overflow at **320, 360, 375, 430, 768, 980, 1170 and 1440px**. The live Vite page's full JavaScript lifecycle was **not** covered by these inlined-layout inspections, and screenshot fonts may fall back when remotely hosted Google Fonts are unavailable.
+
+**Production build limitation:** The npm registry was unavailable; `npm install` timed out, so `npm run build` was **not** executed or claimed successful. Deploy or run locally with network access to validate the Vite production output and, subsequently, real Netlify Forms delivery.
+
+**Preserved functionality:** No changes made to the JavaScript modules handling gallery, ordering, navigation, or scroll animation. The original green Halaal asset is byte-identical to the most recent supplied ZIP.

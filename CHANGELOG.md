@@ -1,3 +1,12 @@
+## 2026-11-21 — Concept 1 logo refresh
+
+- Replaced the earlier website's text-and-star logo with the selected elegant editorial signature wordmark.
+- Added transparent SVG + PNG/WebP exports for primary, horizontal header, circular Z icon, and reverse footer variants.
+- Updated the browser favicon and the brand lockup within the social-preview image.
+- Revised responsive header CSS to retain both logo readability and the persistent Halaal badge on narrow viewports.
+- Preserved the owner-provided green Halaal asset and its existing five placements; no change to the hero, catalogue, Netlify form or WhatsApp integration.
+- Added branding regression tests and QA notes.
+
 # Change Log
 
 ## 2026-11-21 — Persistent navigation Halaal badge

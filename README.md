@@ -14,6 +14,30 @@ An original, responsive one-page website for Zorina's Delights built with **vani
 - On-scroll reveals and hover treatments with `prefers-reduced-motion` support.
 - SEO/social metadata, SVG favicon, locally stored decorative artwork, social preview, and deployment configuration.
 
+
+## Brand refresh: Concept 1 — Elegant Editorial Wordmark
+
+The new logo is installed in the **sticky header**, the **footer** and the **favicon**, and the social-preview card has been updated. This replaces the previous text-and-star website logo, **not** the separate green Halaal emblem. No gallery or order functionality was changed for the logo update.
+
+All new files are under `public/branding/`. They are transparent where appropriate and reference the owner's chosen Concept 1 direction:
+
+| Asset | Purpose |
+| --- | --- |
+| `logo-primary.svg` | Full-size, transparent vector; script + DELIGHTS + caramel heart flourish |
+| `logo-primary.png` / `.webp` | Transparent raster versions of the primary mark |
+| `logo-horizontal.svg` | Space-saving header lockup, without the extended flourish |
+| `logo-horizontal.png` / `.webp` | Transparent raster copies of the header lockup |
+| `logo-mark.svg` / `.png` | Compact circular **Z** and heart monogram for icons or labels |
+| `logo-footer.svg` | Light-on-dark reverse logo used on the dark footer |
+| `logo-footer.png` / `.webp` | Transparent raster copies of the reverse logo |
+| `../favicon.svg` | Simplified, small-size browser favicon in the same palette |
+
+**Brand palette:** cocoa `#5B3826`, caramel `#C68A49`, ivory `#FFF0D8`, honey highlight `#E8AF75`.
+
+**Where it is wired up:** `index.html` references `logo-mark.svg` and `logo-horizontal.svg` in the header and `logo-footer.svg` in the footer. Styling lives in `src/styles/main.css` and `src/styles/responsive.css`. Mobile navigation intentionally hides the extra circular mark while retaining the full brand name in a compact horizontal lockup so that the Halaal badge and menu button remain visible. These logo assets are traced/cleaned reproductions of an AI-generated design concept, not a typeset source font or a hand-drawn vector master. Review final print artwork with a designer before large-format production.
+
+**To swap the logo later:** replace the matching SVGs while retaining their viewBox proportions, or adjust `.brand__wordmark` sizing in responsive CSS. Keep the Halaal logo and its copy separate; no certification claim is made.
+
 ## Quick start
 
 Requires **Node.js 22** (configured for Netlify). From the project folder:
