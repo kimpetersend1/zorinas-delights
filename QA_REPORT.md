@@ -24,3 +24,29 @@
 ## Release recommendation
 
 The project is ready for the owner to inspect and deploy to a Netlify preview, **not for an unverified public launch**. Confirm the details in README, install/build in CI, enable form detection, submit a test enquiry, inspect the Forms dashboard, and check the deployed canonical/social metadata.
+
+## Phase 2: Halaal logo integration (2026-11-21)
+
+- Added the provided Halaal logo as an optimised local WebP asset (`public/images/halaal-logo.webp`).
+- Added restrained trust badges in the hero, collection status, ordering section and footer. The accessible text is “All products are Halaal”.
+- Styled the mark for dark and light surfaces and responsive layouts; did not touch ordering or gallery JavaScript.
+- No certification body is named and the word “certified” is not used, because the owner only confirmed that the products are Halaal.
+- Before public launch, the owner should confirm continued accuracy and permission to use the supplied graphic.
+
+### Halaal update verification
+
+- `npm test`: **8/8 automated tests passed**, including two Halaal-branding regression tests and all six previous tests.
+- In-memory Chromium visual/interaction harness exercised **1440px, 768px, 375px, and 320px** wide layouts. At all four widths the page had **no horizontal overflow** or JavaScript page errors; **all four Halaal mark images loaded**, six product cards were rendered, and setting quantity 2 retained the **R120** flyer-price estimate. The mobile menu opened at 375px and 320px.
+- The browser harness used inlined local CSS/images and re-mapped the original JavaScript module imports to in-memory module URLs because this container's Chromium blocks navigation to local and HTTP addresses. It is useful for responsive layout/regression checks but **is not a substitute for checking a real Vite build in a hosted browser**.
+- The environment could not complete `npm install` (timed out while fetching packages), so a production `npm run build` was **not verified**. Run `npm install && npm run build` in an environment with access to the npm registry.
+- Netlify live form delivery, deployed image loading and notification emails **must still be verified after deployment**. No payment or real customer enquiry was submitted.
+
+
+## Phase 3: Persistent navigation Halaal badge (2026-11-21)
+
+- **Request:** Make the Halaal identity visible in the header even when the hero badge is below the fold. Keep the hero badge.
+- **Implementation:** Added a pale-sage navigation capsule with the existing owner-supplied emblem and "Halaal" label, fixed in the sticky header row across breakpoints. The hero, collection, order and footer emblems are unchanged.
+- **Automated:** `npm test` — **9/9 tests pass**, including a new regression for simultaneous navigation and hero placement. `node --check` passed for the application's JavaScript modules and postbuild script.
+- **Browser layout:** An in-memory Chromium harness (locally inlined HTML/CSS and embedded images) checked widths **320, 375, 390, 430, 550, 760, 768, 820, 980, 1024, 1160, 1170, 1280 and 1440px**. Confirmed the badge was on-screen, logo loaded, no horizontal document overflow, no collisions with logo/navigation/CTA/menu button, and header remained sticky when scrolled. At mobile widths, the menu could be opened and closed using Escape while the badge stayed visible.
+- **Visual snapshots:** `Zorinas-Delights-Halaal-Nav-1440-preview.png` and `Zorinas-Delights-Halaal-Nav-375-preview.png` were captured separately (not shipped as part of website source).
+- **Unverified:** Actual Vite production bundle and deployed Netlify form. `npm install` failed with DNS resolution error `EAI_AGAIN` while accessing `registry.npmjs.org`; no npm dependencies were installed. Check with `npm install && npm run build` in a working environment, then verify live Netlify form delivery.

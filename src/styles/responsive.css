@@ -6,6 +6,11 @@
   .order__grid { gap: 58px; }
   .form-actions { grid-template-columns: 1fr; }
 }
+@media (max-width: 1160px) {
+  /* Preserve the existing enquiry CTA while making room for the Halaal badge. */
+  .site-header__inner { gap: 18px; }
+  .site-nav { gap: clamp(18px, 2.7vw, 32px); }
+}
 @media (max-width: 980px) {
   .header-cta { display: none; }
   .site-header__inner { min-height: 78px; }
@@ -30,8 +35,12 @@
   .section-pad { padding-block: 90px; }
   .announcement__inner { justify-content: center; gap: 7px; text-align: center; min-height: 36px; font-size: 9px; }
   .announcement__star { display: none; }
-  .site-header__inner { min-height: 74px; }
+  .site-header__inner { min-height: 74px; gap: 12px; }
   .brand { min-width: 0; }
+  .nav-halaal { margin-left: auto; min-height: 40px; padding: 3px 9px 3px 4px; gap: 5px; }
+  .nav-halaal__icon { width: 31px; height: 31px; }
+  .nav-halaal__label { font-size: 9px; letter-spacing: .06em; }
+  .menu-toggle { flex: 0 0 45px; }
   .brand__mark { width: 41px; height: 41px; font-size: 25px; }
   .brand__type > span { font-size: 23px; }
   .brand__type small { font-size: 8px; }
@@ -50,7 +59,9 @@
   .hero__eyebrow { margin-bottom: 21px; }
   .hero__title { font-size: clamp(59px, 11.2vw, 92px); letter-spacing: -.077em; }
   .hero__lead { margin: 24px 0 25px; max-width: 530px; }
-  .hero__footnote { margin-top: 31px; }
+  .hero__footnote { margin-top: 24px; }
+  .halaal-badge--hero { margin-top: 22px; }
+  .halaal-collection-note { margin-left: 0; }
   .hero__visual { justify-self: center; max-width: 570px; padding: 0 16px 31px 21px; }
   .hero__seal { left: -8px; width: 128px; }
   .hero__decor-star { right: 0; }
@@ -90,6 +101,10 @@
   .hero__actions { align-items: flex-start; gap: 24px; }
   .hero__actions .button { min-height: 53px; }
   .hero__visual { padding-left: 17px; padding-right: 10px; }
+  .halaal-badge--hero { max-width: 100%; }
+  .halaal-badge--hero .halaal-badge__text small { font-size: 9px; }
+  .halaal-collection-note { width: fit-content; max-width: 100%; }
+  .halaal-badge--order { max-width: 100%; }
   .hero__seal { left: -9px; bottom: 3px; width: 113px; }
   .hero__seal > strong { font-size: 19px; }
   .hero__art-caption { font-size: 7px; right: 15px; }
