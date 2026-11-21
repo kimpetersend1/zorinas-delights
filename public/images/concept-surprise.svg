@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 820" width="900" height="820" role="img" aria-label="Decorative illustrative product artwork">
+<defs>
+ <radialGradient id="pastry" cx="37%" cy="30%" r="70%"><stop offset="0" stop-color="#efb663"/><stop offset=".37" stop-color="#cf8240"/><stop offset=".77" stop-color="#aa582c"/><stop offset="1" stop-color="#7d3b20"/></radialGradient>
+ <radialGradient id="gloss" cx="22%" cy="18%"><stop offset="0" stop-color="#fff0af" stop-opacity=".85"/><stop offset=".6" stop-color="#e8aa61" stop-opacity=".03"/><stop offset="1" stop-color="#763819" stop-opacity=".15"/></radialGradient>
+ <linearGradient id="syrup" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f4cc67"/><stop offset=".48" stop-color="#b46a2e"/><stop offset="1" stop-color="#7b351e"/></linearGradient>
+ <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fffaf0"/><stop offset="1" stop-color="#e8d3b8"/></linearGradient>
+ <filter id="shadow" x="-40%" y="-50%" width="180%" height="220%"><feGaussianBlur stdDeviation="17"/></filter>
+ <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".5" numOctaves="3" stitchTiles="stitch" result="noise"/><feColorMatrix in="noise" type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".08"/></feComponentTransfer></filter>
+ <pattern id="sprinkles" width="37" height="39" patternUnits="userSpaceOnUse"><circle cx="7" cy="17" r="2" fill="#fff2cd" opacity=".78"/><path d="M26 7l4 3" stroke="#ffe5a7" stroke-width="3" stroke-linecap="round"/></pattern>
+</defs>
+<rect width="900" height="820" fill="#f1cd9d"/><circle cx="453" cy="400" r="314" fill="#f9e9cd" opacity=".52"/>
+<ellipse cx="450" cy="675" rx="245" ry="51" fill="#9a583c" opacity=".19" filter="url(#shadow)"/>
+<g transform="translate(450 425) rotate(-5)">
+<path d="M-211 -167L194 -209L245 212L-176 242Z" fill="#b97052" stroke="#8d523c" stroke-width="12"/>
+<path d="M-211 -167L0 -236L194 -209L-23 -128Z" fill="#e6b47c" stroke="#a87554" stroke-width="8"/>
+<path d="M-15 -132L-9 236" stroke="#f3d8ae" stroke-width="24"/>
+<rect x="-110" y="-44" width="209" height="159" rx="90" fill="#f8e9ce"/>
+<text x="-5" y="71" text-anchor="middle" font-family="Georgia,serif" font-style="italic" font-size="126" fill="#91533f">?</text>
+</g>
+<g transform="translate(164 139) scale(1.1)" fill="none" stroke="#ad6b47" stroke-width="2.6" stroke-linecap="round"><path d="M0 -26V-39M0 26v13M-26 0h-13M26 0h13M-18 -18l-10 -10M18 18l10 10M18 -18l10 -10M-18 18l-10 10"/><circle r="7" fill="#ad6b47" stroke="none"/></g><g transform="translate(770 618) scale(0.9)" fill="none" stroke="#ad6b47" stroke-width="2.6" stroke-linecap="round"><path d="M0 -26V-39M0 26v13M-26 0h-13M26 0h13M-18 -18l-10 -10M18 18l10 10M18 -18l10 -10M-18 18l-10 10"/><circle r="7" fill="#ad6b47" stroke="none"/></g>
+<path d="M94 498q46 -39 77-11m551-242q40-29 83 4" fill="none" stroke="#bf7955" stroke-width="6" stroke-linecap="round"/>
+<rect width="900" height="820" filter="url(#grain)" opacity=".56" pointer-events="none"/></svg>
