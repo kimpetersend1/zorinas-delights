@@ -164,3 +164,15 @@ The library showcases all four logo lockups and available export formats, the ex
 The homepage is unmodified and has no navigation link to the brand library. The library uses `noindex, follow` and is excluded from the generated sitemap. These measures do not make it private: anyone with the URL can open the page. No authentication was requested. Keep the Halaal and flyer-use permissions and commercial artwork review requirements in mind when sharing assets.
 
 The page uses its own `src/styles/branding.css` and `src/branding.js`; all existing ordering and catalogue files are unchanged. Remove neither the `/branding/` public assets nor the `/branding/index.html` source when maintaining the project.
+
+## The Signature Reveal (homepage introduction)
+
+The homepage now displays the approved Concept 1 wordmark on a warm ivory full-screen overlay. It uses inline SVG masks over the original vector paths, native CSS keyframes and a small vanilla JS lifecycle. No new dependencies are required.
+
+- Timeline: signature from 0.06–1.11s, DELIGHTS from 0.98–1.34s, caramel flourish from 1.28–1.88s, short hold, fade from 2.0–2.6s. The original hero entrance and scroll reveal setup start at the beginning of the fade.
+- Playback: once per page session (normally a tab's lifetime, including refreshes; browser session restoration or tab duplication may retain sessionStorage). The `/branding/` entry never runs the introduction. It does not add any links to the homepage.
+- Accessibility and fallback: reduced-motion visitors skip it; Tab or Escape dismisses it immediately; the overlay is decorative and hidden from assistive technology. With JavaScript disabled or storage inaccessible it stays hidden. A 3-second watchdog in the early inline gate removes the overlay and releases the homepage if CSS animation events or the main module fail. A pagehide cleanup prevents a stale overlay when restoring from browser history. The watchdog is a fail-open deadline; unusually slow stylesheet loading can shorten the introductory sequence.
+- Modify the timing and mask paths in `src/styles/preloader.css` and the inline SVG in `index.html`. If changing the total duration, also adjust the watchdog in the head script. The logo geometry is copied verbatim from `public/branding/logo-primary.svg` and split into masks, not redrawn; update those groups when replacing the approved logo.
+- To replay during development, open DevTools Console and run `sessionStorage.removeItem('zorinas.signature-reveal.v1'); location.reload();` or open a fresh independent tab. Do not add this command to production code.
+
+Run `npm install`, `npm test`, `npm run dev` and `npm run build` on your development machine. On Netlify, confirm the first homepage visit plays, refresh skips, /branding works independently, and the order form remains operational. The intro does not wait for every network request; it is a branded transition, not an indication of actual loading progress.

@@ -63,3 +63,11 @@ No product prices, product catalogue data, animations, order logic, Netlify Form
 ### Business-owner note
 
 The owner states that all products are Halaal and provided the graphic. Before public launch, confirm that this remains accurate and that the owner may use the graphic. This update makes **no third-party certification claim**.
+
+## Signature Reveal update
+
+- Added homepage-only, approximately 2.6-second intro using the existing logo vectors and CSS-animated masks, followed by a fade.
+- Added early sessionStorage/reduced-motion gate, keyboard dismissal, history cleanup and fail-open watchdog.
+- Synchronised original hero and scroll entry animation setup with fade start.
+- Added `src/styles/preloader.css`, `src/scripts/preloader.js`, and six regression tests; updated README and QA report.
+- Preserved all remaining existing source and assets, including independent `/branding`, all Halaal placements, navigation and order flow. No new npm dependencies.
