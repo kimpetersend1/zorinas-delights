@@ -4,8 +4,9 @@ An original, responsive one-page website for Zorina's Delights built with **vani
 
 ## What's included
 
-- Sticky navigation with a keyboard-accessible mobile menu.
+- Sticky navigation with a keyboard-accessible mobile menu and a **permanently visible Halaal badge**, including on narrow phone screens.
 - Editorial hero, decorative product illustrations, an about section and a small crop from the supplied flyer labelled as source material.
+- Owner-supplied Halaal emblem displayed in the sticky navigation, hero, collection information, order section and footer, with the wording **“All products are Halaal”**.
 - Responsive CSS multi-column masonry gallery with **one enquirable product** and **five visibly labelled sample concepts** (not for sale).
 - Product selection, quantity and calculated **flyer-price estimate**; product-card enquiries pre-select the relevant item.
 - Two separate order routes: WhatsApp opens a prefilled message **which the customer must send**, and Netlify Forms posts an AJAX enquiry to Netlify after deployment.
@@ -69,7 +70,7 @@ Please verify all details taken from the submitted flyer:
 | Gallery concepts | 5 illustrative concept cards, not orderable | Replace with real products, prices and photography when approved |
 | Product illustrations | Original SVG artwork | Replace with actual approved photography when available |
 | Image from flyer | Small labelled crop of supplied flyer | Confirm public-use permission and quality |
-| Halal/Halaal status | **Not claimed or displayed** | Add only with authorised, current verification |
+| Halaal status | Owner confirms all products are Halaal; provided green Halaal emblem is displayed | Confirm continued accuracy, the owner's right to use the emblem and whether any separate certification claim is appropriate (no certification claim is made on this website) |
 | Legal/privacy | Short process disclosure | Owner to confirm final privacy policy and relevant obligations |
 
 The sample gallery content is explicitly **not an offer of products**. The real kit has a visible note stating that the R60 price is from the flyer and may have changed.
@@ -82,6 +83,7 @@ The sample gallery content is explicitly **not an offer of products**. The real 
 - **Main visual system:** `src/styles/main.css`; product and order components: `src/styles/components.css`; breakpoints: `src/styles/responsive.css`.
 - **Interactions:** `src/scripts/`.
 - **Illustrations:** `public/images/`. Original vector assets can be regenerated with `python3 scripts/generate-art.py` (Python standard library only).
+- **Halaal logo:** `public/images/halaal-logo.webp` is a web-optimised version of the supplied green circular Halaal graphic, without altering its wording or symbol. Its five placements are in `index.html`, styled in `src/styles/main.css` and `src/styles/responsive.css`. The owner states that all products are Halaal. The site intentionally does **not** claim third-party certification.
 
 All dynamic gallery content is inserted using `textContent` and DOM creation rather than HTML interpolation from user input.
 
@@ -103,7 +105,7 @@ public/
   favicon.svg
   robots.txt
   social-preview.jpg
-  images/
+  images/            # includes halaal-logo.webp, supplied by business owner
 src/
   main.js
   data/            # products and business configuration
