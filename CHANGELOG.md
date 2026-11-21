@@ -1,3 +1,20 @@
+## 2026-11-21 — Standalone brand library
+
+- Added a direct-access `/branding` showcase with editorial hero, four logo variants and individual downloads, copyable palette, typography, digital assets, illustration gallery and practical usage notes.
+- Bundled the original logo kit and brand presentation for download.
+- Configured a separate Vite HTML entry; no homepage link, homepage edits, routing dependency or changes to ordering logic.
+- Added noindex and kept the route out of the existing sitemap generator; this is public direct access, not authentication.
+- Added three regression tests. All 15 Node tests passed; offline Chromium responsive checks at seven widths passed.
+
+## 2026-11-21 — Concept 1 logo refresh
+
+- Replaced the earlier website's text-and-star logo with the selected elegant editorial signature wordmark.
+- Added transparent SVG + PNG/WebP exports for primary, horizontal header, circular Z icon, and reverse footer variants.
+- Updated the browser favicon and the brand lockup within the social-preview image.
+- Revised responsive header CSS to retain both logo readability and the persistent Halaal badge on narrow viewports.
+- Preserved the owner-provided green Halaal asset and its existing five placements; no change to the hero, catalogue, Netlify form or WhatsApp integration.
+- Added branding regression tests and QA notes.
+
 # Change Log
 
 ## 2026-11-21 — Persistent navigation Halaal badge

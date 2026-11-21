@@ -41,9 +41,9 @@
   .nav-halaal__icon { width: 31px; height: 31px; }
   .nav-halaal__label { font-size: 9px; letter-spacing: .06em; }
   .menu-toggle { flex: 0 0 45px; }
-  .brand__mark { width: 41px; height: 41px; font-size: 25px; }
-  .brand__type > span { font-size: 23px; }
-  .brand__type small { font-size: 8px; }
+  /* The Halaal badge remains visible: hide only the decorative monogram on phones. */
+  .brand__emblem { display: none; }
+  .brand__wordmark { width: clamp(112px, 34vw, 144px); }
   .menu-toggle { display: flex; position: relative; width: 45px; height: 45px; align-items: center; justify-content: center; flex-direction: column; gap: 6px; border: 1px solid #d9c7b9; background: #fff9f0; z-index: 60; }
   .menu-toggle span { width: 19px; height: 1.5px; background: var(--ink); transition: transform .25s ease; }
   .menu-toggle[aria-expanded="true"] span:first-child { transform: translateY(3.75px) rotate(45deg); }
@@ -133,7 +133,7 @@
   .footer__top-link { flex: 0 0 48px; width: 48px; font-size: 25px; }
   .footer__grid { grid-template-columns: 1fr; gap: 33px; padding-block: 46px; }
   .footer__brand { grid-column: auto; }
-  .footer__wordmark { font-size: 43px; }
+  .footer__logo { width: min(100%, 250px); }
   .footer__bottom { flex-direction: column; gap: 14px; }
 }
 @media (max-width: 360px) {
@@ -143,4 +143,11 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .product-card:hover, .button:hover { transform: none; }
+}
+
+@media (max-width: 360px) {
+  .brand__wordmark { width: 111px; }
+  .nav-halaal { padding-right: 6px; gap: 3px; }
+  .nav-halaal__icon { width: 28px; height: 28px; }
+  .site-header__inner { gap: 10px; }
 }
