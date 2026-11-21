@@ -154,3 +154,13 @@ Run `npm run test` and `npm run build` after installation. **Netlify's live Form
 - [Netlify: Forms setup](https://docs.netlify.com/manage/forms/setup/)
 - [Netlify: Vite guide](https://docs.netlify.com/build/frameworks/framework-setup-guides/vite/)
 - [Netlify: Spam filters](https://docs.netlify.com/manage/forms/spam-filters/)
+
+## Standalone brand library
+
+Open `http://localhost:5173/branding/` after starting Vite, or append `/branding` to the deployed Netlify site's URL. This is an independent HTML entry (`branding/index.html`) configured alongside the existing homepage in `vite.config.js`. The production build is expected to emit `dist/branding/index.html`; confirm this and the direct URL when deploying. No SPA catch-all redirect is required.
+
+The library showcases all four logo lockups and available export formats, the existing brand palette and font pairing, favicon, social preview, owner-supplied Halaal emblem, brand presentation, product/hero illustrations and supplied flyer crop. The downloadable logo ZIP is identical to the previously delivered Concept 1 logo pack. Individual download links point to bundled files; clipboard controls require a supported browser and a secure origin (HTTPS or localhost). A readable manual-copy fallback is included.
+
+The homepage is unmodified and has no navigation link to the brand library. The library uses `noindex, follow` and is excluded from the generated sitemap. These measures do not make it private: anyone with the URL can open the page. No authentication was requested. Keep the Halaal and flyer-use permissions and commercial artwork review requirements in mind when sharing assets.
+
+The page uses its own `src/styles/branding.css` and `src/branding.js`; all existing ordering and catalogue files are unchanged. Remove neither the `/branding/` public assets nor the `/branding/index.html` source when maintaining the project.

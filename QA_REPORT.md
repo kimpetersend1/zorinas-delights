@@ -1,3 +1,11 @@
+## Standalone brand library — 2026-11-21
+
+- `npm test`: 15/15 passed (12 existing, 3 new).
+- Source comparison against previous ZIP: homepage HTML and existing application assets and code unchanged; only README, changelog, QA report modified among original files.
+- Offline Chromium harness inlined actual branding page CSS, JS and images and used fallback fonts. Widths: 320, 375, 620, 768, 900, 1024 and 1440px. No horizontal document overflow, no broken images; four logo cards at every width. Mocked clipboard success and rejection paths passed; no page script errors in the harness.
+- Static tests verified every referenced local downloadable file/image exists, no homepage branding-page link, separate entry configuration, noindex, and all illustrations present.
+- npm install failed with registry DNS error `EAI_AGAIN`; local HTTP navigation also blocked by the environment. Actual Vite build, HTTP download delivery, Google Fonts rendering, live routing and real clipboard permissions remain unverified. After deployment verify /branding and /branding/, download each format, copy colours, and smoke-test the homepage order form. No live Netlify submission attempted.
+
 # QA Report — Zorina's Delights
 
 ## Checks actually performed
