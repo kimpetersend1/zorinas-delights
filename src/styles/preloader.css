@@ -1,0 +1,54 @@
+/* The Signature Reveal — homepage only. Hidden by default, including without JS. */
+.signature-reveal[hidden] { display: none; }
+html.signature-active { overflow: hidden; }
+html.signature-active .signature-reveal[hidden] {
+  display: grid !important;
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  place-items: center;
+  background: #f9f5ec;
+  touch-action: none;
+  animation: signature-exit .6s 2s cubic-bezier(.55, .05, .3, 1) both;
+}
+.signature-reveal__logo {
+  display: block;
+  width: min(76vw, 520px, 130vh);
+  height: auto;
+  overflow: visible;
+}
+/* Stroke paths are reveal masks, not replacements for the actual filled logo. */
+.signature-stroke {
+  fill: none;
+  stroke: white;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+}
+.signature-active .signature-stroke--z { animation: signature-write .72s .06s ease-in-out both; }
+.signature-active .signature-stroke--word { animation: signature-write .62s .42s ease-in-out both; }
+.signature-active .signature-stroke--accent { animation: signature-write .56s 1.28s ease-in-out both; }
+.signature-complete { opacity: 0; }
+/* Finish each mask with full coverage so no sliver of the original vector is lost. */
+.signature-active .signature-complete--z { animation: signature-cover .13s .73s ease-out both; }
+.signature-active .signature-complete--word { animation: signature-cover .12s .99s ease-out both; }
+.signature-active .signature-complete--accent { animation: signature-cover .10s 1.78s ease-out both; }
+.signature-type-mask { transform: scaleX(0); transform-origin: 0 0; }
+.signature-active .signature-type-mask { animation: signature-typeset .36s .98s ease-out both; }
+@keyframes signature-write { to { stroke-dashoffset: 0; } }
+@keyframes signature-cover { to { opacity: 1; } }
+@keyframes signature-typeset { to { transform: scaleX(1); } }
+@keyframes signature-exit {
+  from { opacity: 1; visibility: visible; }
+  to { opacity: 0; visibility: hidden; }
+}
+/* Preserve the original hero keyframes; pause only until the overlay starts fading. */
+html.signature-hold :is(.hero__eyebrow, .hero__title, .hero__lead, .hero__actions, .hero__footnote, .hero__visual) {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.signature-active { overflow: visible; }
+  html.signature-active .signature-reveal[hidden] { display: none !important; }
+  html.signature-hold :is(.hero__eyebrow, .hero__title, .hero__lead, .hero__actions, .hero__footnote, .hero__visual) { animation-play-state: running; }
+}

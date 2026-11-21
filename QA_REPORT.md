@@ -68,3 +68,16 @@ The project is ready for the owner to inspect and deploy to a Netlify preview, *
 **Production build limitation:** The npm registry was unavailable; `npm install` timed out, so `npm run build` was **not** executed or claimed successful. Deploy or run locally with network access to validate the Vite production output and, subsequently, real Netlify Forms delivery.
 
 **Preserved functionality:** No changes made to the JavaScript modules handling gallery, ordering, navigation, or scroll animation. The original green Halaal asset is byte-identical to the most recent supplied ZIP.
+
+## Signature Reveal QA — current update
+
+### Verified in this environment
+
+- `npm test`: **21/21 tests passed** (15 prior regression tests and 6 new intro tests). The bootstrap from the actual homepage was exercised in a Node VM with simulated storage, events and timer. Tests cover first visit/refresh/new separate session, reduced motion, storage denial, fade lifecycle, keyboard and pagehide dismissal, watchdog, original vector path equivalence, unchanged dependency list and absence on the separate branding entry.
+- Offline Chromium rendering of the actual homepage HTML and CSS, with styles/images embedded and sessionStorage mocked because the environment blocks HTTP and file navigation. The page's Vite application module and remote fonts were omitted for this visual harness; this is not a full built-app browser test. The overlay appeared, original hero motion was paused, fade-start released the motion and the overlay was removed at fade completion. Measured fade interval: approximately 600ms. Visually checked partial signature and completed logo. Centring and viewport fit checked at 1440×900, 320×568, 375×812, 768×1024, 1024×768, 1920×1080 and 568×320. Tab dismissal, reduced-motion skip, disabled-JavaScript skip and repeat-session mock passed.
+- Compared project files against the previous Branding Page ZIP: unrelated source files and all assets are byte-identical; no existing page sections removed. New overlay is hidden by default and has no external artwork request. Existing application interactions are covered by previous unit tests but were not end-to-end retested in a live browser for this update.
+
+### Not verified
+
+- Actual Vite production build or full live navigation: npm offline install failed with `ENOTCACHED` for Vite, and browser HTTP/file navigation was blocked by the environment. Run `npm install && npm run build` locally and verify session behavior with real sessionStorage, `/branding/` routing, homepage interactions and Netlify form delivery on the deployed site.
+- No live form submission or deployment performed.
