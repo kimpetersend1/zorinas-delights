@@ -97,3 +97,26 @@ The project is ready for the owner to inspect and deploy to a Netlify preview, *
 - This is an enquiry flow for **one product range per request**, not a checkout or basket.
 
 **Additional V2 browser test:** With form delivery enabled in the offline harness and `fetch` mocked (no external request), confirmed a pies/steak/two-pack form submission produced a URL-encoded `POST /` with `product`, `variant`, `quantity`, `form-name`, consent and computed `product-details` showing R1200; the success panel appeared. In the same harness, a WhatsApp click produced the expected prefilled `wa.me` URL without sending a message. This is not a live Netlify or WhatsApp test.
+
+## Signature Reveal timing restoration (2026-11-22)
+
+- Compared the original Signature Reveal ZIP with Catalogue V2: `preloader.css`, `preloader.js`, and `main.js` were identical; the original playback key was also unchanged. The session-storage skip could therefore make the intro seem absent on re-visits.
+- Intentionally made the visible writing stages less rushed, without extending the original 2.6-second end-to-end animation or weakening reduced-motion accessibility.
+- Versioned the once-per-session key, validated original session v1 → new v2 intro → v2 refresh skipped.
+- Automated test and browser verification details recorded alongside this release. No Netlify form submission performed. Production build still needs verification if Vite cannot be installed in this environment.
+
+**Latest verification:** `npm test`: **27/27 passed**. Offline headless Chromium, using the original bootstrap, logo SVG and CSS injected into an isolated document, checked the active intro, 2.0s delay + 0.6s fade, dismissal after ~2.8s, versioned session skip on repeat, and reduced-motion skip at 375×812 and 1440×900. The page was not served through Vite for this visual test. `npm run build` could not execute (`vite: not found`); `npm install` failed with `EAI_AGAIN` for registry.npmjs.org. A production build and live Netlify enquiry delivery remain unverified.
+
+## Signature Reveal 50% slower (2026-11-22)
+
+- Made a timing-only change to the intro: 3.0s drawing/hold followed by 0.9s fade = **3.9s overall**. Scaled SVG masks, typeset transition and complete-coverage timings 1.5×.
+- Raised the watchdog to 4.6s to avoid cutting off the longer animation. The first-visit key is versioned `.v3`; prior `.v2` sessions get one new playback, subsequent refreshes skip.
+- Accessibility: prefers-reduced-motion, Tab/Escape and storage failure behaviour preserved.
+- No product/gallery/order, `/branding`, image, font or Halaal changes.
+
+### Current verification
+
+- `npm test`: **27/27 passing**; `node --check` passed for the unchanged loader helper and main module.
+- Offline Chromium test at **320×568, 375×812, 768×1024, 1440×900** confirmed a 3.0s pre-fade hold plus 0.9s fade, release of the paused hero at fade start, finished/dismissed overlay after the fade, a session key on first playback, skipped repeat playback, and no horizontal overflow in the isolated intro render.
+- Reduced-motion browser setting skipped the intro.
+- Tested the intro using inline source HTML, SVG and CSS in Chromium; not a Vite production bundle. The previously reported production build and live Netlify form caveats remain.

@@ -23,7 +23,7 @@
     <script>
       (() => {
         const root = document.documentElement;
-        const key = 'zorinas.signature-reveal.v1';
+        const key = 'zorinas.signature-reveal.v3'; // Play the 50%-slower intro once after this update, then skip on refresh.
         const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
         try {
           if (motion.matches || sessionStorage.getItem(key)) return;
@@ -60,7 +60,7 @@
         document.addEventListener('keydown', onKey);
         window.addEventListener('pagehide', finish);
         motion.addEventListener?.('change', onMotion);
-        watchdog = window.setTimeout(finish, 3000);
+        watchdog = window.setTimeout(finish, 4600);
         root.classList.add('signature-active', 'signature-hold');
       })();
     </script>

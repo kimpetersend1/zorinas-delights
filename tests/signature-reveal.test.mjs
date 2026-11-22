@@ -8,7 +8,7 @@ const read = path => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8'
 const html = read('index.html');
 const bootstrap = html.match(/<script>\s*(\(\(\) => \{[\s\S]*?\}\)\(\);)\s*<\/script>/)[1];
 const css = read('src/styles/preloader.css');
-const key = 'zorinas.signature-reveal.v1';
+const key = 'zorinas.signature-reveal.v3';
 
 function boot({storage = new Map(), reduced = false, blocked = false} = {}) {
   const classes = new Set();
@@ -32,6 +32,26 @@ test('plays once per session, separate sessions start independently, refresh ski
   assert.equal(boot({storage:first.storage}).classes.size,0);
   assert.ok(boot().classes.has('signature-active'));
 });
+test('prior v2 visit still receives the slower intro once, then refresh skips',()=>{
+  const storage=new Map([['zorinas.signature-reveal.v2','1']]);
+  const a=boot({storage});
+  assert.ok(a.classes.has('signature-active'));
+  assert.equal(storage.get(key),'1');
+  assert.equal(boot({storage}).classes.size,0);
+});
+test('50-percent-longer drawing stages and 3.9-second total duration',()=>{
+  for (const [selector,duration,delay] of [
+    ['signature-stroke--z','1.575s','.075s'],
+    ['signature-stroke--word','1.35s','.675s'],
+    ['signature-stroke--accent','.93s','1.77s'],
+    ['signature-type-mask','.57s','1.89s'],
+  ]) {
+    const line=css.split('\n').find(line=>line.includes(`.signature-active .${selector} {`));
+    assert.ok(line,`${selector} must have an animation`);
+    assert.ok(line.includes(` ${duration} ${delay} `),`${selector} must keep the deliberate pace`);
+  }
+  assert.match(css,/signature-exit\s+\.9s\s+3s/);
+});
 test('hero releases at fade start; overlay dismisses at exit end and cancels watchdog',()=>{
   const b=boot(); let calls=0;
   afterSignatureReveal(()=>calls++,b.doc); assert.equal(calls,0);
@@ -45,7 +65,7 @@ test('reduced-motion and inaccessible session storage skip the introduction',()=
 });
 test('watchdog releases hero even if animation or main module fails',()=>{
   const b=boot(); let calls=0; afterSignatureReveal(()=>calls++,b.doc);
-  assert.equal(b.timer.ms,3000); b.timer.callback(); assert.equal(b.classes.size,0); assert.equal(calls,1);
+  assert.equal(b.timer.ms,4600); b.timer.callback(); assert.equal(b.classes.size,0); assert.equal(calls,1);
 });
 test('Tab, Escape, pagehide and reduced-motion changes dismiss the overlay',()=>{
   for(const k of ['Tab','Escape']){const b=boot(); b.emit('keydown',{key:k}); assert.equal(b.classes.size,0);}
@@ -56,7 +76,7 @@ test('preserves every approved compound vector subpath; mask-only animation, no 
   const original=read('public/branding/logo-primary.svg');
   const paths=(s)=>[...s.matchAll(/<path fill="(#[A-Fa-f0-9]+)" fill-rule="evenodd"(?: mask="[^"]+")? d="([^"]+)"/g)].flatMap(m=>[...m[2].matchAll(/M[^M]+/g)].map(p=>m[1]+p[0].trim())).sort();
   assert.equal(paths(original).length,23); assert.deepEqual(paths(html),paths(original));
-  assert.match(css,/signature-exit\s+\.6s\s+2s/); assert.match(css,/animation-play-state: paused/);
+  assert.match(css,/signature-exit\s+\.9s\s+3s/); assert.match(css,/animation-play-state: paused/);
   assert.match(html,/id="signature-reveal" class="signature-reveal" hidden aria-hidden="true"/);
   assert.match(read('src/main.js'),/afterSignatureReveal\(initAnimations\)/);
   assert.doesNotMatch(read('branding/index.html'),/signature-reveal|preloader/);

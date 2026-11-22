@@ -9,7 +9,7 @@ html.signature-active .signature-reveal[hidden] {
   place-items: center;
   background: #f9f5ec;
   touch-action: none;
-  animation: signature-exit .6s 2s cubic-bezier(.55, .05, .3, 1) both;
+  animation: signature-exit .9s 3s cubic-bezier(.55, .05, .3, 1) both;
 }
 .signature-reveal__logo {
   display: block;
@@ -17,7 +17,8 @@ html.signature-active .signature-reveal[hidden] {
   height: auto;
   overflow: visible;
 }
-/* Stroke paths are reveal masks, not replacements for the actual filled logo. */
+/* 50% longer reveal sequence: original 2.6s becomes 3.9s.
+   Stroke paths are reveal masks, not replacements for the actual filled logo. */
 .signature-stroke {
   fill: none;
   stroke: white;
@@ -26,16 +27,16 @@ html.signature-active .signature-reveal[hidden] {
   stroke-dasharray: 1 1;
   stroke-dashoffset: 1;
 }
-.signature-active .signature-stroke--z { animation: signature-write .72s .06s ease-in-out both; }
-.signature-active .signature-stroke--word { animation: signature-write .62s .42s ease-in-out both; }
-.signature-active .signature-stroke--accent { animation: signature-write .56s 1.28s ease-in-out both; }
+.signature-active .signature-stroke--z { animation: signature-write 1.575s .075s ease-in-out both; }
+.signature-active .signature-stroke--word { animation: signature-write 1.35s .675s ease-in-out both; }
+.signature-active .signature-stroke--accent { animation: signature-write .93s 1.77s ease-in-out both; }
 .signature-complete { opacity: 0; }
 /* Finish each mask with full coverage so no sliver of the original vector is lost. */
-.signature-active .signature-complete--z { animation: signature-cover .13s .73s ease-out both; }
-.signature-active .signature-complete--word { animation: signature-cover .12s .99s ease-out both; }
-.signature-active .signature-complete--accent { animation: signature-cover .10s 1.78s ease-out both; }
+.signature-active .signature-complete--z { animation: signature-cover .15s 1.605s ease-out both; }
+.signature-active .signature-complete--word { animation: signature-cover .165s 1.995s ease-out both; }
+.signature-active .signature-complete--accent { animation: signature-cover .15s 2.70s ease-out both; }
 .signature-type-mask { transform: scaleX(0); transform-origin: 0 0; }
-.signature-active .signature-type-mask { animation: signature-typeset .36s .98s ease-out both; }
+.signature-active .signature-type-mask { animation: signature-typeset .57s 1.89s ease-out both; }
 @keyframes signature-write { to { stroke-dashoffset: 0; } }
 @keyframes signature-cover { to { opacity: 1; } }
 @keyframes signature-typeset { to { transform: scaleX(1); } }

@@ -1,3 +1,16 @@
+## Signature Reveal — 50% slower (2026-11-22)
+
+The first-visit homepage signature introduction now runs for **3.9 seconds**, increased by 50% from 2.6 seconds. The original mask-drawing and typesetting choreography has been scaled proportionally, with the concluding fade extended from **0.6 to 0.9 seconds**. The hero begins its entrance as the exit fade starts at 3.0 seconds. The fail-open watchdog dismisses the overlay after 4.6 seconds if the animation never finishes.
+
+Playback remains **once per browser session** (key: `zorinas.signature-reveal.v3`), with the updated intro offered once to visitors who previously saw v2. Users who prefer reduced motion skip the animation, as do users without functional session storage. Keyboard dismissal (Tab/Escape) and the direct-access `/branding` page remain unchanged.
+
+To replay in a browser after it has run:
+
+```js
+sessionStorage.removeItem('zorinas.signature-reveal.v3');
+location.reload();
+```
+
 # Zorina's Delights — The Sweet Atelier
 
 An original, responsive one-page website for Zorina's Delights built with **vanilla HTML, CSS and JavaScript**, powered by **Vite** and prepared for **Netlify**. No frontend UI framework or database is required.
@@ -61,6 +74,10 @@ Products use cropped imagery from the owner-supplied flyers and each card explic
 **Order flow:** Filter by All / Frozen Savouries / Sweet Treats; select a product from a card or the form; choose a variety when relevant; enter a pack quantity; review the *estimated* total, or a quote-required state for doughnuts; use WhatsApp or Netlify Forms. The WhatsApp enquiry includes the variety, amount, pack size and estimate. The Netlify submission contains the same computed summary in the statically declared `product-details` field. Nothing is charged or reserved. The form supports **one product range per enquiry**, not a multi-product basket.
 
 **V2 changes:** `src/data/products.js`, `src/scripts/gallery.js`, `src/scripts/orders.js`, `src/scripts/order-utils.js`, `index.html`, `src/styles/components.css`, new `public/images/*-flyer.webp` images, updated tests, this README, `CHANGELOG.md` and `QA_REPORT.md`. No new npm dependencies, branding changes or additional homepage links to `/branding`.
+
+## Signature Reveal pacing restoration (2026-11-22)
+
+The V2 catalogue left the original 2.6-second intro timings unchanged, but the existing `zorinas.signature-reveal.v1` session key could make the animation appear to vanish after the homepage had already been visited. This update **refines the actual SVG handwriting pacing** (longer letter and flourish draws) while preserving the complete 2.6-second duration and its 600ms fade. The session key is versioned to `zorinas.signature-reveal.v2`, so the refined animation is shown once on the first visit after this release even in a session that saw v1; refreshing still skips it. No changes to the catalogue, forms, branding page, Halaal badges, or dependency list.
 
 ## Quick start
 
@@ -195,10 +212,10 @@ The brand library retains its independent `src/styles/branding.css` and `src/bra
 
 The homepage now displays the approved Concept 1 wordmark on a warm ivory full-screen overlay. It uses inline SVG masks over the original vector paths, native CSS keyframes and a small vanilla JS lifecycle. No new dependencies are required.
 
-- Timeline: signature from 0.06–1.11s, DELIGHTS from 0.98–1.34s, caramel flourish from 1.28–1.88s, short hold, fade from 2.0–2.6s. The original hero entrance and scroll reveal setup start at the beginning of the fade.
+- Timeline: signature from 0.05–1.35s, DELIGHTS from 1.26–1.64s, caramel flourish from 1.18–1.90s, short hold, then fade from 2.0–2.6s. The original hero entrance and scroll reveal setup start at the beginning of the fade.
 - Playback: once per page session (normally a tab's lifetime, including refreshes; browser session restoration or tab duplication may retain sessionStorage). The `/branding/` entry never runs the introduction. It does not add any links to the homepage.
 - Accessibility and fallback: reduced-motion visitors skip it; Tab or Escape dismisses it immediately; the overlay is decorative and hidden from assistive technology. With JavaScript disabled or storage inaccessible it stays hidden. A 3-second watchdog in the early inline gate removes the overlay and releases the homepage if CSS animation events or the main module fail. A pagehide cleanup prevents a stale overlay when restoring from browser history. The watchdog is a fail-open deadline; unusually slow stylesheet loading can shorten the introductory sequence.
 - Modify the timing and mask paths in `src/styles/preloader.css` and the inline SVG in `index.html`. If changing the total duration, also adjust the watchdog in the head script. The logo geometry is copied verbatim from `public/branding/logo-primary.svg` and split into masks, not redrawn; update those groups when replacing the approved logo.
-- To replay during development, open DevTools Console and run `sessionStorage.removeItem('zorinas.signature-reveal.v1'); location.reload();` or open a fresh independent tab. Do not add this command to production code.
+- To replay during development, open DevTools Console and run `sessionStorage.removeItem('zorinas.signature-reveal.v3'); location.reload();` or open a fresh independent tab. Do not add this command to production code.
 
 Run `npm install`, `npm test`, `npm run dev` and `npm run build` on your development machine. On Netlify, confirm the first homepage visit plays, refresh skips, /branding works independently, and the order form remains operational. The intro does not wait for every network request; it is a branded transition, not an indication of actual loading progress.
