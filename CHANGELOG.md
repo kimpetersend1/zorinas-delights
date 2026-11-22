@@ -71,3 +71,15 @@ The owner states that all products are Halaal and provided the graphic. Before p
 - Synchronised original hero and scroll entry animation setup with fade start.
 - Added `src/styles/preloader.css`, `src/scripts/preloader.js`, and six regression tests; updated README and QA report.
 - Preserved all remaining existing source and assets, including independent `/branding`, all Halaal placements, navigation and order flow. No new npm dependencies.
+
+## 2026-11-22 — Product Catalogue Expansion V2.0
+
+- Replaced the five homepage concept cards with flyer-derived product offerings. Current gallery: **nine** ranges (six frozen savouries and three sweet treats).
+- Added category filter buttons (All, Frozen Savouries, Sweet Treats) with `aria-pressed`, visible result counts and keyboard support.
+- Added optimised, cropped WebP product imagery from the two new owner-supplied flyers. All promotional image crops are labelled and the original DIY kit artwork remains unchanged.
+- Expanded catalogue records with variant prices, pack sizes and quantities. Frozen savoury prices are explicitly **per 100 pieces**. Ready-made koesisters remain **R50 for 12**, while the **DIY kit is R60** as advertised on the older flyer.
+- The duplicated Sausage Rolls R480 listing is represented only once. Doughnuts remain enquiry-only with an unconfirmed price and pack size; no totals are inferred.
+- Upgraded the existing order form to dynamically populate varieties and pack-aware quantity labels, and to show a quote-required state for unknown prices.
+- Updated the WhatsApp and Netlify Forms payloads to include the selected flavour, advertised pack details and estimated total. Continued to distinguish enquiries from completed orders or payments.
+- Updated homepage catalogue and surrounding copy. Preserved the existing logo, all five Halaal placements, session-based Signature Reveal, `/branding` page with no homepage link, navigation, privacy disclosure and Netlify configuration.
+- New and expanded automated regression tests. No additional packages or dependencies.

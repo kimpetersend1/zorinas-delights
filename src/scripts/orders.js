@@ -1,4 +1,4 @@
-import { availableProducts, formatPrice } from '../data/products.js';
+import { availableProducts, estimateFor, formatPrice, getVariants, packDescription } from '../data/products.js';
 import { getOrderDetails, getNetlifyPayload, getWhatsAppUrl } from './order-utils.js';
 
 const form = document.querySelector('#order-form');
@@ -9,8 +9,11 @@ const summary = document.querySelector('#order-summary');
 const success = document.querySelector('#form-success');
 const newEnquiry = document.querySelector('#new-enquiry');
 const productSelect = document.querySelector('#product');
+const variantSelect = document.querySelector('#variant');
+const variantField = document.querySelector('#variant-field');
 const quantityInput = document.querySelector('#quantity');
-// Netlify sets this build-time flag via netlify.toml. Local builds do not claim live form delivery.
+const quantityLabel = document.querySelector('#quantity-label');
+// Local preview never reports a form submission as delivered.
 const netlifyFormsEnabled = import.meta.env?.VITE_NETLIFY_FORMS_ENABLED === 'true';
 
 function setStatus(message, type = '', link = null) {
@@ -27,31 +30,56 @@ function setStatus(message, type = '', link = null) {
   }
 }
 
+function currentProduct() { return availableProducts.find((item) => item.id === productSelect.value); }
+
+function updateVariants() {
+  const product = currentProduct();
+  const variants = getVariants(product);
+  variantSelect.replaceChildren(...variants.map((variant) => {
+    const option = document.createElement('option');
+    option.value = variant.id;
+    option.textContent = product?.variants?.length ? `${variant.name} — ${formatPrice(variant.price)}` : variant.name;
+    return option;
+  }));
+  variantField.hidden = !product || !product.variants?.length;
+  variantSelect.disabled = !product;
+  quantityLabel.textContent = product?.quantityLabel || 'Quantity';
+  quantityInput.value = '1';
+  updateSummary();
+}
+
 function updateSummary() {
-  const product = availableProducts.find((item) => item.id === productSelect?.value);
-  const qty = Number(quantityInput?.value);
-  const calculated = product && Number.isSafeInteger(qty) && qty > 0 && qty <= 999
-    ? `${formatPrice(product.price * qty)}` : '—';
-  const label = summary?.querySelector('strong');
-  if (label) label.textContent = calculated;
+  const product = currentProduct();
+  const variant = getVariants(product).find((item) => item.id === variantSelect.value);
+  const qty = Number(quantityInput.value);
+  const estimate = estimateFor(product, variant?.id, qty);
+  const total = summary.querySelector('strong');
+  const title = summary.querySelector('span');
+  const note = summary.querySelector('small');
+  if (!product || !variant || !Number.isSafeInteger(qty) || qty < 1 || qty > 999) {
+    total.textContent = '—';
+    title.textContent = 'ESTIMATED TOTAL';
+    note.textContent = 'Choose a product, variety and valid quantity to preview an estimate.';
+    return;
+  }
+  total.textContent = estimate === null ? 'Quote required' : formatPrice(estimate);
+  title.textContent = estimate === null ? 'PRICE ON REQUEST' : 'ESTIMATED FLYER TOTAL';
+  note.textContent = product.packSize
+    ? `${qty} × ${packDescription(product)} · advertised price, to be confirmed. No payment taken.`
+    : 'Price and selling pack size were not supplied. The seller must confirm both.';
 }
 
 function validateAndRead() {
   setStatus('');
   form.querySelectorAll('[aria-invalid="true"]').forEach((node) => node.removeAttribute('aria-invalid'));
-  if (!form.checkValidity()) {
-    form.reportValidity();
-    return null;
-  }
-  try {
-    return getOrderDetails(new FormData(form));
-  } catch (error) {
+  if (!form.checkValidity()) { form.reportValidity(); return null; }
+  try { return getOrderDetails(new FormData(form)); }
+  catch (error) {
     const message = error instanceof Error ? error.message : 'Please check your details.';
-    const phone = form.querySelector('#phone');
-    if (message.includes('contact number')) {
-      phone?.setAttribute('aria-invalid', 'true');
-      phone?.focus();
-    }
+    const focusField = message.includes('contact number') ? form.querySelector('#phone')
+      : message.includes('variety') ? variantSelect : message.includes('quantity') ? quantityInput : null;
+    focusField?.setAttribute('aria-invalid', 'true');
+    focusField?.focus();
     setStatus(message, 'error');
     return null;
   }
@@ -64,44 +92,37 @@ function setSending(sending) {
 }
 
 export function selectOrderProduct() {
-  updateSummary();
+  updateVariants();
   setStatus('');
   productSelect?.focus({ preventScroll: true });
 }
 
 export function initOrders() {
-  if (!form || !productSelect || !whatsappButton || !netlifyButton) return;
-  updateSummary();
-  productSelect.addEventListener('change', updateSummary);
+  if (!form || !productSelect || !variantSelect || !whatsappButton || !netlifyButton) return;
+  updateVariants();
+  productSelect.addEventListener('change', () => { updateVariants(); setStatus(''); });
+  variantSelect.addEventListener('change', updateSummary);
   quantityInput.addEventListener('input', updateSummary);
 
   whatsappButton.addEventListener('click', () => {
     const details = validateAndRead();
     if (!details) return;
     const url = getWhatsAppUrl(details);
-    const opened = window.open(url, '_blank', 'noopener,noreferrer');
-    // Some browsers return null despite opening a tab; always include a fallback URL.
-    setStatus('A prefilled WhatsApp message has been prepared. Review it and tap Send in WhatsApp; this website has not placed the order.', 'success', url);
-    void opened;
+    window.open(url, '_blank', 'noopener,noreferrer');
+    setStatus('A prefilled WhatsApp message is ready. Review and tap Send in WhatsApp; this website has not placed an order.', 'success', url);
   });
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
-    const details = validateAndRead();
-    if (!details) return;
+    if (!validateAndRead()) return;
     if (!netlifyFormsEnabled) {
-      setStatus('Website form delivery is disabled in local builds. Deploy to Netlify with form detection enabled, or choose WhatsApp to send your enquiry.', 'error');
+      setStatus('Website form delivery is disabled in local builds. Deploy to Netlify with form detection enabled, or choose WhatsApp.', 'error');
       return;
     }
-
     setSending(true);
     try {
       const body = getNetlifyPayload(new FormData(form));
-      const response = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body,
-      });
+      const response = await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body });
       if (!response.ok) throw new Error(`Submission failed (HTTP ${response.status}).`);
       form.hidden = true;
       success.hidden = false;
@@ -109,15 +130,12 @@ export function initOrders() {
     } catch (error) {
       console.error('Order enquiry submission failed:', error);
       setStatus('We could not send your enquiry through the website. Please retry or use WhatsApp instead.', 'error');
-    } finally {
-      setSending(false);
-    }
+    } finally { setSending(false); }
   });
 
   newEnquiry?.addEventListener('click', () => {
     form.reset();
-    if (availableProducts.length === 1) productSelect.value = availableProducts[0].id;
-    updateSummary();
+    updateVariants();
     setStatus('');
     success.hidden = true;
     form.hidden = false;

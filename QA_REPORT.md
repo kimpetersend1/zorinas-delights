@@ -81,3 +81,19 @@ The project is ready for the owner to inspect and deploy to a Netlify preview, *
 
 - Actual Vite production build or full live navigation: npm offline install failed with `ENOTCACHED` for Vite, and browser HTTP/file navigation was blocked by the environment. Run `npm install && npm run build` locally and verify session behavior with real sessionStorage, `/branding/` routing, homepage interactions and Netlify form delivery on the deployed site.
 - No live form submission or deployment performed.
+
+## Catalogue Expansion V2.0 (2026-11-22)
+
+**Implemented:** Nine flyer-based product ranges, six frozen and three sweet; flavour-aware pack prices, CSS masonry filters, dynamic variant dropdown, pack quantity labels and quote-only doughnuts. Eight new WebP crops from the client flyers, all labelled as promotional imagery. WhatsApp and Netlify Form enquiries include calculated selection information. The original Signature Reveal, independent brand library, logo and Halaal placements remain.
+
+**Automated tests:** `npm test`: **25/25 tests passed** (replaces six earlier catalogue tests with ten V2 catalogue/order tests while retaining all 15 branding/Halaal/Signature Reveal regression tests). All touched JavaScript modules passed `node --check`.
+
+**Offline browser interaction checks:** An in-memory Chromium harness loaded the actual source HTML and CSS with locally inlined assets and a wrapper of the JavaScript modules (the environment blocks HTTP/file navigation). At **1440px, 768px, 375px and 320px**, confirmed 9 cards total, filters 6/3, pies/steak/two packs = R1200, doughnut total = “Quote required”, no broken card images, no horizontal overflow, no page script errors, and the local Netlify form correctly warns it is disabled. At mobile widths, navigation opens/closes correctly. Desktop and mobile previews were visually rendered; this was **not** a real Vite build. These tests used reduced-motion rendering and do not re-certify the first-visit intro animations. Browser form delivery via a deployed Netlify endpoint was not tested.
+
+**Known constraints:**
+- `npm install` failed with `EAI_AGAIN` contacting `registry.npmjs.org` (2026-11-22), so no actual `npm run build` was possible here. The user must verify a production Vite build and the separate `/branding/` route on Netlify or a networked machine.
+- Netlify Forms detection, actual submission/notification delivery, and live WhatsApp hand-off still need verification after deployment; unit tests validate the generated payloads and URL only.
+- Seller must verify all prices, availability, pack sizes (particularly doughnuts), the duplicate Sausage Rolls line, current WhatsApp number, collection arrangements, final privacy copy and permission to use promotional imagery/Halaal emblem.
+- This is an enquiry flow for **one product range per request**, not a checkout or basket.
+
+**Additional V2 browser test:** With form delivery enabled in the offline harness and `fetch` mocked (no external request), confirmed a pies/steak/two-pack form submission produced a URL-encoded `POST /` with `product`, `variant`, `quantity`, `form-name`, consent and computed `product-details` showing R1200; the success panel appeared. In the same harness, a WhatsApp click produced the expected prefilled `wa.me` URL without sending a message. This is not a live Netlify or WhatsApp test.
