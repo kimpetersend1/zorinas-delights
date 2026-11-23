@@ -1,3 +1,11 @@
+## 2026-11-23 — Pre-fried roti range added
+
+- Added **Pre-Fried Rotis** as a separate catalogue category and filter; the flyer does not say these are frozen, so they are not grouped with frozen savouries.
+- Added Plain Roti (R75), Garlic & Dhanya (R100) and Garlic & Chilli (R100), each advertised per pack of 10.
+- Added a clean, optimised WebP crop of the supplied flyer photo, product preparation copy (fry for 1 minute on each side), and an asset card on `/branding`.
+- The product dropdown, variety selection, pack quantity estimate, WhatsApp message and Netlify `product-details` payload use the existing shared order flow; no new dependencies or form fields.
+- Updated catalogue counts, category copy, README and regression tests. Existing DIY Kit image, 3.9-second Signature Reveal, Halaal placements, logo and unrelated product data remain unchanged.
+
 ## 2026-11-23 — DIY Kit image display correction
 
 - The new client-supplied DIY Kit image is the **only** product image used for this item.

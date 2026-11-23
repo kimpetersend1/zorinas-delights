@@ -24,7 +24,10 @@ function cardFor(product, index) {
   image.height = product.imageHeight;
   image.loading = index < 2 ? 'eager' : 'lazy';
   image.decoding = 'async';
-  const badge = element('span', 'product-card__badge', product.category === 'frozen' ? 'Frozen · 100 pieces' : product.packSize ? 'Sweet · Pack of 12' : 'Sweet · Ask for a quote');
+  const badgeText = product.category === 'frozen' ? 'Frozen · 100 pieces'
+    : product.category === 'rotis' ? 'Pre-fried · Pack of 10'
+      : product.packSize ? 'Sweet · Pack of 12' : 'Sweet · Ask for a quote';
+  const badge = element('span', 'product-card__badge', badgeText);
   media.append(image, badge);
 
   const body = element('div', 'product-card__body');

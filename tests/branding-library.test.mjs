@@ -22,7 +22,7 @@ test('all local brand-library image and download targets exist', () => {
   assert.equal((html.match(/data-copy="#[0-9A-F]{6}"/g)||[]).length,4);
 });
 test('page covers all packaged illustration assets, with concepts clearly marked', () => {
-  for (const target of ['/images/hero-illustration.svg','/images/koesisters-diy-kit-client-20261123.webp','/images/concept-treat-box.svg','/images/concept-sharing-tray.svg','/images/concept-gifting.svg','/images/concept-weekend.svg','/images/concept-surprise.svg']) {
+  for (const target of ['/images/hero-illustration.svg','/images/koesisters-diy-kit-client-20261123.webp','/images/pre-fried-rotis-flyer.webp','/images/concept-treat-box.svg','/images/concept-sharing-tray.svg','/images/concept-gifting.svg','/images/concept-weekend.svg','/images/concept-surprise.svg']) {
     assert.ok(html.includes(target), target);
   }
   assert.equal((html.match(/Catalogue concept · not for sale/g)||[]).length,5);

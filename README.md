@@ -20,7 +20,7 @@ An original, responsive one-page website for Zorina's Delights built with **vani
 - Sticky navigation with a keyboard-accessible mobile menu and a **permanently visible Halaal badge**, including on narrow phone screens.
 - Editorial hero, decorative product illustrations, an about section and a small crop from the supplied flyer labelled as source material.
 - Owner-supplied Halaal emblem displayed in the sticky navigation, hero, collection information, order section and footer, with the wording **“All products are Halaal”**.
-- Responsive, category-filterable CSS masonry gallery with **nine enquiry-enabled product ranges** (six frozen savouries, three sweet treats) derived from the owner-supplied flyers, with clearly labelled unconfirmed prices.
+- Responsive, category-filterable CSS masonry gallery with **ten enquiry-enabled product ranges** (six frozen savouries, three sweet treats and one pre-fried roti range) derived from the owner-supplied flyers, with clearly labelled unconfirmed prices.
 - Product and variety selection, pack-aware quantities and calculated **flyer-price estimates**; each card pre-selects its product. Doughnuts show **Quote required** because their price and selling pack size were not supplied.
 - Two separate order routes: WhatsApp opens a prefilled message **which the customer must send**, and Netlify Forms posts an AJAX enquiry to Netlify after deployment.
 - Success and error feedback, honeypot field, explicit contact consent, and brief privacy information.
@@ -66,14 +66,19 @@ All new files are under `public/branding/`. They are transparent where appropria
 | Cape Malay Koesisters | R50 | 12 |
 | Golden-Brown Doughnuts | **Price on request** | **Unspecified** |
 | Koesisters DIY Kit | R60, 12 koesisters plus syrup and coconut | One kit |
+| Pre-Fried Rotis | Plain R75; Garlic & Dhanya R100; Garlic & Chilli R100 | 10 rotis |
 
-The six frozen ranges are priced per **100 items**, not per piece. The new flyer lists Sausage Rolls twice (once under the Spring Rolls block); V2 represents it only once, pending seller confirmation. The two types of koesisters are separate products with distinct flyer prices. **All prices are unverified advertisements.**
+The six frozen ranges are priced per **100 items**, not per piece. The pre-fried rotis are a separate savoury range priced per pack of 10; the flyer does not state that they are frozen, so the site does not group them with frozen savouries. The new flyer lists Sausage Rolls twice (once under the Spring Rolls block); V2 represents it only once, pending seller confirmation. The two types of koesisters are separate products with distinct flyer prices. **All prices are unverified advertisements.**
 
-Products use cropped imagery from the owner-supplied flyers and each card explicitly states that these are promotional photos and actual appearance may vary. The original DIY kit illustration is unchanged.
+Products use cropped imagery from the owner-supplied flyers and each card explicitly states that these are promotional photos and actual appearance may vary. The DIY Kit uses the latest client-supplied product photograph; the new pre-fried roti range uses a clean crop from its supplied flyer.
 
-**Order flow:** Filter by All / Frozen Savouries / Sweet Treats; select a product from a card or the form; choose a variety when relevant; enter a pack quantity; review the *estimated* total, or a quote-required state for doughnuts; use WhatsApp or Netlify Forms. The WhatsApp enquiry includes the variety, amount, pack size and estimate. The Netlify submission contains the same computed summary in the statically declared `product-details` field. Nothing is charged or reserved. The form supports **one product range per enquiry**, not a multi-product basket.
+**Order flow:** Filter by All / Frozen Savouries / Sweet Treats / Pre-fried Rotis; select a product from a card or the form; choose a variety when relevant; enter a pack quantity; review the *estimated* total, or a quote-required state for doughnuts; use WhatsApp or Netlify Forms. The WhatsApp enquiry includes the variety, amount, pack size and estimate. The Netlify submission contains the same computed summary in the statically declared `product-details` field. Nothing is charged or reserved. The form supports **one product range per enquiry**, not a multi-product basket.
 
 **V2 changes:** `src/data/products.js`, `src/scripts/gallery.js`, `src/scripts/orders.js`, `src/scripts/order-utils.js`, `index.html`, `src/styles/components.css`, new `public/images/*-flyer.webp` images, updated tests, this README, `CHANGELOG.md` and `QA_REPORT.md`. No new npm dependencies, branding changes or additional homepage links to `/branding`.
+
+## Pre-fried roti range addition (2026-11-23)
+
+Added the client-supplied Pre-Fried Rotis range as a distinct fourth catalogue filter, without assuming frozen storage. The three varieties are Plain Roti (R75), Garlic & Dhanya (R100) and Garlic & Chilli (R100), each per pack of 10. The gallery card includes the flyer preparation instruction to fry for 1 minute on each side. The order form, WhatsApp message and Netlify payload use the selected variety, number of packs and computed advertised estimate. The image is a clean WebP crop from the supplied flyer and is also listed in the independent `/branding` asset gallery. Prices remain subject to owner confirmation.
 
 ## Signature Reveal pacing restoration (2026-11-22)
 
@@ -112,7 +117,7 @@ The standard local build deliberately **does not send Netlify form enquiries**, 
 
 ## Ordering workflow
 
-A visitor selects one of the nine advertised product ranges, chooses a variety where applicable, specifies how many advertised packs (or a requested amount for doughnuts), enters contact details and optional notes, and consents to contact. There are two routes:
+A visitor selects one of the ten advertised product ranges, chooses a variety where applicable, specifies how many advertised packs (or a requested amount for doughnuts), enters contact details and optional notes, and consents to contact. There are two routes:
 
 - **Continue with WhatsApp:** opens a new WhatsApp tab with order details filled in, but does **not** send anything automatically. The visitor reviews and sends the message there.
 - **Send via website form:** on a Netlify build, AJAX posts URL-encoded form fields. An inline acknowledgement is shown after a successful HTTP response. A successful HTTP response should be confirmed against the Netlify dashboard.
@@ -126,7 +131,7 @@ Please verify all details taken from the three supplied flyers:
 | Detail | Currently used | Action before launch |
 | --- | --- | --- |
 | Business | Zorina's Delights | Confirm styling and spelling |
-| Product catalogue | Nine ranges: six frozen savouries, Cape Malay koesisters, doughnuts and DIY kit | **Confirm availability, varieties and whether all items remain offered** |
+| Product catalogue | Ten ranges: six frozen savouries, Cape Malay koesisters, doughnuts, DIY kit and pre-fried rotis | **Confirm availability, varieties and whether all items remain offered** |
 | Kit contents | 12 koesisters, syrup, desiccated coconut | Verify contents |
 | Advertised prices | Frozen savouries R400–R600 per 100, koesisters R50 per 12, DIY kit R60 | **Confirm every current price and pack size** |
 | Doughnuts | Price and selling pack size not supplied | **Provide a confirmed price, unit and ordering quantity** |
@@ -135,7 +140,7 @@ Please verify all details taken from the three supplied flyers:
 | Collection | Bonnie Brae | **Verify collection area, method, timing** |
 | About text | Draft with an explicit placeholder notice | Replace with owner's authentic story |
 | Old gallery concepts | Removed from the homepage; original files remain in the brand library | Keep or archive illustration assets according to brand requirements |
-| Product imagery | Eight cropped promotional images from the supplied new flyers; DIY remains illustrated | **Confirm rights to use and that the promotional photos represent actual offerings** |
+| Product imagery | Cropped promotional images from the supplied flyers; DIY kit and pre-fried roti photos supplied by the client | **Confirm rights to use and that the promotional photos represent actual offerings** |
 | Image from flyer | Small labelled crop of supplied flyer | Confirm public-use permission and quality |
 | Halaal status | Owner confirms all products are Halaal; provided green Halaal emblem is displayed | Confirm continued accuracy, the owner's right to use the emblem and whether any separate certification claim is appropriate (no certification claim is made on this website) |
 | Legal/privacy | Short process disclosure | Owner to confirm final privacy policy and relevant obligations |
