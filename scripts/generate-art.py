@@ -69,7 +69,9 @@ art = '''<ellipse cx="460" cy="850" rx="390" ry="185" fill="#81502f" opacity=".1
 </g>
 <path d="M750 300q18 37 43 41m-6-74q-19 26-16 50" stroke="#7d523a" fill="none" stroke-width="5" stroke-linecap="round" opacity=".6"/>
 '''
-(OUT/'koesister-kit.svg').write_text(wrap(900,1100,art,'#e7bd8c'),encoding='utf8')
+# DIY Kit is now a client-supplied photograph. Do not overwrite /images/koesister-kit.svg.
+# The live /images/koesisters-diy-kit-client-20261123.webp and compatibility
+# aliases are intentionally maintained outside this illustrative-art generator.
 
 # Hero variation with similar recognisable ingredients, stronger negative space.
 hero = '''<circle cx="550" cy="545" r="430" fill="#f5d6aa" opacity=".48"/>

@@ -219,3 +219,9 @@ The homepage now displays the approved Concept 1 wordmark on a warm ivory full-s
 - To replay during development, open DevTools Console and run `sessionStorage.removeItem('zorinas.signature-reveal.v3'); location.reload();` or open a fresh independent tab. Do not add this command to production code.
 
 Run `npm install`, `npm test`, `npm run dev` and `npm run build` on your development machine. On Netlify, confirm the first homepage visit plays, refresh skips, /branding works independently, and the order form remains operational. The intro does not wait for every network request; it is a branded transition, not an indication of actual loading progress.
+
+Note: The DIY Kit now uses the latest client-supplied product photo throughout the site and brand library.
+
+### DIY Kit image troubleshooting (23 November 2026)
+
+If the DIY Kit still appears as a drawn illustration, you are viewing the **older** project deployment or cached JavaScript. Extract this ZIP into a new folder, run `npm install` and `npm run dev`, or deploy the newly built `dist` output. The catalogue data points to `/images/koesisters-diy-kit-client-20261123.webp`. You can verify this path directly in the browser. Use a hard refresh after deployment, or test in a private browser tab.

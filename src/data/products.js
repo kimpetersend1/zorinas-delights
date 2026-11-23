@@ -109,9 +109,9 @@ export const products = [
     description: '12 koesisters, syrup and desiccated coconut. Syrup. Sprinkle. Enjoy.',
     price: 60,
     packSize: 12, packUnit: 'koesisters per kit', quantityLabel: 'DIY kits (12 per kit)',
-    image: '/images/koesister-kit.svg', alt: 'Illustration of golden koesisters, syrup and coconut',
-    imageWidth: 900, imageHeight: 1100, tone: 'honey', feature: true,
-    imageNote: 'Illustration based on the original DIY kit flyer. R60 was advertised on that earlier flyer.',
+    image: '/images/koesisters-diy-kit-client-20261123.webp', alt: 'Promotional photo of the Koesisters DIY Kit with syrup, coconut and 12 koesisters',
+    imageWidth: 1024, imageHeight: 1536, tone: 'honey', feature: true,
+    imageNote: 'Client-supplied product photo for the DIY kit. R60 was advertised on the supplied flyer.',
   },
 ];
 
