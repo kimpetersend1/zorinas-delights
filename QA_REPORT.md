@@ -1,3 +1,12 @@
+## Pre-fried roti range addition — 2026-11-23
+
+- Added a tenth product range in a separate **Pre-fried rotis** filter group. It is intentionally not classified as frozen because the supplied flyer only says pre-fried.
+- Verified flyer-derived options and advertised pack prices: Plain Roti R75 / 10; Garlic & Dhanya R100 / 10; Garlic & Chilli R100 / 10.
+- Added a clean 454 × 730 WebP crop from the supplied flyer; checked that the crop excludes flyer lettering and contains the roti product photograph.
+- Added the product image to the independent `/branding` asset gallery and preserved the homepage's no-link-to-branding requirement.
+- `node --test tests/*.test.mjs`: **30/30 automated tests passed**, including category counts, exact roti variants/prices, pack-aware estimates, WhatsApp message content and Netlify payload details. Existing catalogue, DIY Kit photo, Halaal placements and 3.9-second Signature Reveal regressions also pass.
+- Production Vite build and live Netlify submission still require verification in an environment with npm registry access and a deployed site. No real WhatsApp message or Netlify form submission was sent.
+
 ## DIY Kit product-photo correction — 2026-11-23
 
 - Compared the packaged updated image with the user's new 1024 × 1536 supplied photo; the actual uploaded photo is now re-encoded as WebP under a **versioned unique URL**, not the legacy SVG.

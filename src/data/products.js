@@ -1,6 +1,6 @@
 /**
- * Catalogue V2 — transcribed from the owner's two promotional flyers (2026-11-22),
- * plus the existing DIY-kit flyer. All amounts are advertised, unverified prices.
+ * Catalogue V2 plus the client's pre-fried roti flyer (2026-11-23),
+ * transcribed from the owner's supplied promotional material and existing DIY-kit flyer. All amounts are advertised, unverified prices.
  * A range is one card; its flavours are price-bearing variants.
  * The flyers' savouries are priced PER 100 ITEMS, not individually.
  * Keep unknown prices null; never infer a price or quantity from imagery.
@@ -11,6 +11,7 @@ export const categories = [
   { id: 'all', label: 'All delights' },
   { id: 'frozen', label: 'Frozen savouries' },
   { id: 'sweet', label: 'Sweet treats' },
+  { id: 'rotis', label: 'Pre-fried rotis' },
 ];
 
 export const products = [
@@ -113,9 +114,23 @@ export const products = [
     imageWidth: 1024, imageHeight: 1536, tone: 'honey', feature: true,
     imageNote: 'Client-supplied product photo for the DIY kit. R60 was advertised on the supplied flyer.',
   },
+  {
+    id: 'pre-fried-rotis', name: 'Pre-Fried Rotis', category: 'rotis',
+    kicker: 'PRE-FRIED ROTIS · PACK OF 10',
+    description: 'Soft, flaky pre-fried rotis in plain, garlic & dhanya, or garlic & chilli varieties. Fry in a pan for 1 minute on each side.',
+    variants: [
+      { id: 'plain', name: 'Plain Roti', price: 75 },
+      { id: 'garlic-dhanya', name: 'Garlic & Dhanya', price: 100 },
+      { id: 'garlic-chilli', name: 'Garlic & Chilli', price: 100 },
+    ],
+    packSize: 10, packUnit: 'rotis', quantityLabel: 'Packs of 10',
+    image: '/images/pre-fried-rotis-flyer.webp', alt: 'Promotional photo of stacked pre-fried rotis with herbs, cropped from the supplied flyer',
+    imageWidth: 454, imageHeight: 730, tone: 'sage',
+    imageNote: 'Promotional photograph cropped from the supplied flyer; actual appearance may vary.',
+  },
 ];
 
-export const availableProducts = products; // All nine are enquiries, not guaranteed stock.
+export const availableProducts = products; // All ten are enquiries, not guaranteed stock.
 export const formatPrice = (value) => Number.isFinite(value) ? `R${value.toFixed(0)}` : 'Price on request';
 
 export function getVariants(product) {

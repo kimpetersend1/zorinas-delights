@@ -18,13 +18,14 @@ function makeForm(overrides = {}) {
 
 const product = (id) => products.find((item) => item.id === id);
 
-test('nine grouped advertised ranges: six frozen and three sweet, without speculative cards', () => {
-  assert.equal(products.length, 9);
-  assert.equal(availableProducts.length, 9);
+test('ten grouped advertised ranges: six frozen, three sweet and one roti range, without speculative cards', () => {
+  assert.equal(products.length, 10);
+  assert.equal(availableProducts.length, 10);
   assert.equal(products.filter((p) => p.category === 'frozen').length, 6);
   assert.equal(products.filter((p) => p.category === 'sweet').length, 3);
-  assert.deepEqual(categories.map((c) => c.id), ['all', 'frozen', 'sweet']);
-  assert.equal(new Set(products.map((p) => p.id)).size, 9);
+  assert.equal(products.filter((p) => p.category === 'rotis').length, 1);
+  assert.deepEqual(categories.map((c) => c.id), ['all', 'frozen', 'sweet', 'rotis']);
+  assert.equal(new Set(products.map((p) => p.id)).size, 10);
   for (const p of products) {
     assert.equal(p.concept, undefined);
     assert.ok(existsSync(new URL(`../public${p.image}`, import.meta.url)), `Missing image: ${p.image}`);
@@ -66,6 +67,42 @@ test('chosen flavour and quantity yield the correct advertised pack total', () =
   assert.equal(estimateFor(product('pies'), 'steak', 2), 1200);
   assert.equal(estimateFor(product('koesisters-diy-kit'), 'standard', 2), 120);
   assert.equal(estimateFor(product('doughnuts'), 'standard', 2), null);
+});
+
+
+test('pre-fried roti flyer varieties, pack size and advertised prices are accurate', () => {
+  const rotis = product('pre-fried-rotis');
+  assert.equal(rotis.category, 'rotis'); // The flyer does not state that these are frozen.
+  assert.equal(rotis.packSize, 10);
+  assert.equal(rotis.packUnit, 'rotis');
+  assert.equal(rotis.quantityLabel, 'Packs of 10');
+  assert.deepEqual(getVariants(rotis), [
+    { id: 'plain', name: 'Plain Roti', price: 75 },
+    { id: 'garlic-dhanya', name: 'Garlic & Dhanya', price: 100 },
+    { id: 'garlic-chilli', name: 'Garlic & Chilli', price: 100 },
+  ]);
+  assert.equal(minPrice(rotis), 75);
+  assert.equal(estimateFor(rotis, 'plain', 2), 150);
+  assert.equal(estimateFor(rotis, 'garlic-dhanya', 3), 300);
+  assert.ok(existsSync(new URL('../public/images/pre-fried-rotis-flyer.webp', import.meta.url)));
+  assert.match(rotis.description, /1 minute on each side/);
+});
+
+test('roti order enquiry carries selected flavour, packs of ten and calculated total', () => {
+  const details = getOrderDetails(makeForm({ product: 'pre-fried-rotis', variant: 'garlic-chilli', quantity: '2' }));
+  assert.equal(details.variant.name, 'Garlic & Chilli');
+  assert.equal(details.estimate, 200);
+  const message = getWhatsAppMessage(details);
+  assert.match(message, /Product: Pre-Fried Rotis/);
+  assert.match(message, /Variety: Garlic & Chilli/);
+  assert.match(message, /2 pack\(s\) × 10 rotis/);
+  assert.match(message, /Advertised price per pack: R100/);
+  assert.match(message, /Estimated flyer total: R200/);
+  const payload = new URLSearchParams(getNetlifyPayload(makeForm({ product: 'pre-fried-rotis', variant: 'garlic-dhanya', quantity: '3' })));
+  assert.equal(payload.get('product'), 'pre-fried-rotis');
+  assert.equal(payload.get('variant'), 'garlic-dhanya');
+  assert.match(payload.get('product-details'), /3 pack\(s\) × 10 rotis/);
+  assert.match(payload.get('product-details'), /Estimated flyer total: R300/);
 });
 
 test('tampered or incomplete product and flavour IDs are rejected', () => {
@@ -125,6 +162,8 @@ test('HTML includes category filtering and statically detectable Netlify variant
   assert.match(html, /id="gallery-count"/);
   assert.match(html, /id="variant" name="variant"/);
   assert.match(html, /name="product-details"/);
+  assert.match(html, /10 product ranges/);
+  assert.match(html, /pre-fried rotis/i);
   assert.match(html, /data-netlify="true"/);
 });
 
