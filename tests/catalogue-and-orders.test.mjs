@@ -127,3 +127,18 @@ test('HTML includes category filtering and statically detectable Netlify variant
   assert.match(html, /name="product-details"/);
   assert.match(html, /data-netlify="true"/);
 });
+
+
+test('DIY Kit uses the client-provided versioned image, not the retired illustration', () => {
+  const diy = product('koesisters-diy-kit');
+  assert.equal(diy.image, '/images/koesisters-diy-kit-client-20261123.webp');
+  assert.equal(diy.imageWidth, 1024);
+  assert.equal(diy.imageHeight, 1536);
+  const brand = readFileSync(new URL('../branding/index.html', import.meta.url),'utf8');
+  assert.match(brand, /koesisters-diy-kit-client-20261123\.webp/);
+  const old = readFileSync(new URL('../public/images/koesister-kit.svg', import.meta.url),'utf8');
+  assert.match(old, /data:image\/webp;base64,/);
+  assert.doesNotMatch(old, /radialGradient id="pastry"/);
+  const generator = readFileSync(new URL('../scripts/generate-art.py', import.meta.url),'utf8');
+  assert.doesNotMatch(generator, /\(OUT\/'koesister-kit\.svg'\)\.write_text/);
+});

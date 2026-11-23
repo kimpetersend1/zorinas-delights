@@ -1,3 +1,12 @@
+## DIY Kit product-photo correction — 2026-11-23
+
+- Compared the packaged updated image with the user's new 1024 × 1536 supplied photo; the actual uploaded photo is now re-encoded as WebP under a **versioned unique URL**, not the legacy SVG.
+- Product data and independent `/branding` page point to the same new versioned photo.
+- Compatibility routes `/images/koesister-kit-photo.webp` and `/images/koesister-kit.svg` contain identical client photo pixels (the SVG embeds the WebP). Running `scripts/generate-art.py` cannot restore the old image.
+- **28/28 Node automated tests passed**. Additional file-byte checks confirmed all three image routes correspond to the same optimized photo.
+- **Limitation:** Full browser visual navigation and the Vite production build could not be verified here: browser navigation was blocked by administrator policy and npm dependency installation is unavailable. The site must be rebuilt and deployed to replace a currently running older site.
+- No product pricing, ordering, loader timing, branding-page navigation or site design was changed.
+
 ## Standalone brand library — 2026-11-21
 
 - `npm test`: 15/15 passed (12 existing, 3 new).

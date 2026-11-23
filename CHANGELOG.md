@@ -1,3 +1,12 @@
+## 2026-11-23 — DIY Kit image display correction
+
+- The new client-supplied DIY Kit image is the **only** product image used for this item.
+- The catalogue and `/branding` artwork page both reference `public/images/koesisters-diy-kit-client-20261123.webp` to avoid stale image URLs.
+- The old `/images/koesister-kit.svg` is now a compatibility image containing the client photograph, not the retired illustration; `/images/koesister-kit-photo.webp` also matches the client photo.
+- The decorative SVG generator no longer overwrites the compatibility asset.
+- **Important:** The website must be rebuilt and redeployed from this ZIP. A previously open site or old deployment will continue to show the old illustration until its code and assets are updated. After deploying, do a hard refresh or open a private window.
+
+- Replaced the DIY Kit illustration with the client-supplied product photo everywhere it appears, including the catalogue and /branding page.
 ## Signature Reveal 50% slower (2026-11-22)
 
 - Extended the full first-visit animated introduction from **2.6 seconds to 3.9 seconds** (50% longer), proportionally stretching logo drawing, letter reveals and the final fade.
