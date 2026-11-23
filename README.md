@@ -1,3 +1,16 @@
+## Signature Reveal — 50% slower (2026-11-22)
+
+The first-visit homepage signature introduction now runs for **3.9 seconds**, increased by 50% from 2.6 seconds. The original mask-drawing and typesetting choreography has been scaled proportionally, with the concluding fade extended from **0.6 to 0.9 seconds**. The hero begins its entrance as the exit fade starts at 3.0 seconds. The fail-open watchdog dismisses the overlay after 4.6 seconds if the animation never finishes.
+
+Playback remains **once per browser session** (key: `zorinas.signature-reveal.v3`), with the updated intro offered once to visitors who previously saw v2. Users who prefer reduced motion skip the animation, as do users without functional session storage. Keyboard dismissal (Tab/Escape) and the direct-access `/branding` page remain unchanged.
+
+To replay in a browser after it has run:
+
+```js
+sessionStorage.removeItem('zorinas.signature-reveal.v3');
+location.reload();
+```
+
 # Zorina's Delights — The Sweet Atelier
 
 An original, responsive one-page website for Zorina's Delights built with **vanilla HTML, CSS and JavaScript**, powered by **Vite** and prepared for **Netlify**. No frontend UI framework or database is required.
@@ -7,8 +20,8 @@ An original, responsive one-page website for Zorina's Delights built with **vani
 - Sticky navigation with a keyboard-accessible mobile menu and a **permanently visible Halaal badge**, including on narrow phone screens.
 - Editorial hero, decorative product illustrations, an about section and a small crop from the supplied flyer labelled as source material.
 - Owner-supplied Halaal emblem displayed in the sticky navigation, hero, collection information, order section and footer, with the wording **“All products are Halaal”**.
-- Responsive CSS multi-column masonry gallery with **one enquirable product** and **five visibly labelled sample concepts** (not for sale).
-- Product selection, quantity and calculated **flyer-price estimate**; product-card enquiries pre-select the relevant item.
+- Responsive, category-filterable CSS masonry gallery with **nine enquiry-enabled product ranges** (six frozen savouries, three sweet treats) derived from the owner-supplied flyers, with clearly labelled unconfirmed prices.
+- Product and variety selection, pack-aware quantities and calculated **flyer-price estimates**; each card pre-selects its product. Doughnuts show **Quote required** because their price and selling pack size were not supplied.
 - Two separate order routes: WhatsApp opens a prefilled message **which the customer must send**, and Netlify Forms posts an AJAX enquiry to Netlify after deployment.
 - Success and error feedback, honeypot field, explicit contact consent, and brief privacy information.
 - On-scroll reveals and hover treatments with `prefers-reduced-motion` support.
@@ -37,6 +50,34 @@ All new files are under `public/branding/`. They are transparent where appropria
 **Where it is wired up:** `index.html` references `logo-mark.svg` and `logo-horizontal.svg` in the header and `logo-footer.svg` in the footer. Styling lives in `src/styles/main.css` and `src/styles/responsive.css`. Mobile navigation intentionally hides the extra circular mark while retaining the full brand name in a compact horizontal lockup so that the Halaal badge and menu button remain visible. These logo assets are traced/cleaned reproductions of an AI-generated design concept, not a typeset source font or a hand-drawn vector master. Review final print artwork with a designer before large-format production.
 
 **To swap the logo later:** replace the matching SVGs while retaining their viewBox proportions, or adjust `.brand__wordmark` sizing in responsive CSS. Keep the Halaal logo and its copy separate; no certification claim is made.
+
+## Product Catalogue Expansion V2.0 (2026-11-22)
+
+**Flyer-derived product ranges:**
+
+| Product range | Advertised varieties / prices | Pack size |
+|---|---|---|
+| Samoosas | Chicken R400; Mince R500; Cheese R450 | 100 pieces |
+| Pies | Chicken R500; Mince R500; Steak R600 | 100 pieces |
+| Spring Rolls | Vegetable R420; Chicken R450 | 100 pieces |
+| Sausage Rolls | R480 | 100 pieces |
+| Quiche | Spinach & Feta R450; Chicken & Mushroom R500 | 100 pieces |
+| Half Moons | Chicken R500; Steak R550 | 100 pieces |
+| Cape Malay Koesisters | R50 | 12 |
+| Golden-Brown Doughnuts | **Price on request** | **Unspecified** |
+| Koesisters DIY Kit | R60, 12 koesisters plus syrup and coconut | One kit |
+
+The six frozen ranges are priced per **100 items**, not per piece. The new flyer lists Sausage Rolls twice (once under the Spring Rolls block); V2 represents it only once, pending seller confirmation. The two types of koesisters are separate products with distinct flyer prices. **All prices are unverified advertisements.**
+
+Products use cropped imagery from the owner-supplied flyers and each card explicitly states that these are promotional photos and actual appearance may vary. The original DIY kit illustration is unchanged.
+
+**Order flow:** Filter by All / Frozen Savouries / Sweet Treats; select a product from a card or the form; choose a variety when relevant; enter a pack quantity; review the *estimated* total, or a quote-required state for doughnuts; use WhatsApp or Netlify Forms. The WhatsApp enquiry includes the variety, amount, pack size and estimate. The Netlify submission contains the same computed summary in the statically declared `product-details` field. Nothing is charged or reserved. The form supports **one product range per enquiry**, not a multi-product basket.
+
+**V2 changes:** `src/data/products.js`, `src/scripts/gallery.js`, `src/scripts/orders.js`, `src/scripts/order-utils.js`, `index.html`, `src/styles/components.css`, new `public/images/*-flyer.webp` images, updated tests, this README, `CHANGELOG.md` and `QA_REPORT.md`. No new npm dependencies, branding changes or additional homepage links to `/branding`.
+
+## Signature Reveal pacing restoration (2026-11-22)
+
+The V2 catalogue left the original 2.6-second intro timings unchanged, but the existing `zorinas.signature-reveal.v1` session key could make the animation appear to vanish after the homepage had already been visited. This update **refines the actual SVG handwriting pacing** (longer letter and flourish draws) while preserving the complete 2.6-second duration and its 600ms fade. The session key is versioned to `zorinas.signature-reveal.v2`, so the refined animation is shown once on the first visit after this release even in a session that saw v1; refreshing still skips it. No changes to the catalogue, forms, branding page, Halaal badges, or dependency list.
 
 ## Quick start
 
@@ -71,7 +112,7 @@ The standard local build deliberately **does not send Netlify form enquiries**, 
 
 ## Ordering workflow
 
-A visitor selects the advertised **Koesisters DIY Kit**, enters a name, phone number, quantity and optional note, then agrees to contact about the enquiry. Two routes are available:
+A visitor selects one of the nine advertised product ranges, chooses a variety where applicable, specifies how many advertised packs (or a requested amount for doughnuts), enters contact details and optional notes, and consents to contact. There are two routes:
 
 - **Continue with WhatsApp:** opens a new WhatsApp tab with order details filled in, but does **not** send anything automatically. The visitor reviews and sends the message there.
 - **Send via website form:** on a Netlify build, AJAX posts URL-encoded form fields. An inline acknowledgement is shown after a successful HTTP response. A successful HTTP response should be confirmed against the Netlify dashboard.
@@ -80,28 +121,30 @@ Both routes are **enquiries only** — no payment, stock reservation, order conf
 
 ## Owner sign-off before public launch
 
-Please verify all details taken from the submitted flyer:
+Please verify all details taken from the three supplied flyers:
 
 | Detail | Currently used | Action before launch |
 | --- | --- | --- |
 | Business | Zorina's Delights | Confirm styling and spelling |
-| Product | Koesisters DIY Kit | Confirm contents and description |
+| Product catalogue | Nine ranges: six frozen savouries, Cape Malay koesisters, doughnuts and DIY kit | **Confirm availability, varieties and whether all items remain offered** |
 | Kit contents | 12 koesisters, syrup, desiccated coconut | Verify contents |
-| Advertised unit price | R60 | **Verify current price** |
+| Advertised prices | Frozen savouries R400–R600 per 100, koesisters R50 per 12, DIY kit R60 | **Confirm every current price and pack size** |
+| Doughnuts | Price and selling pack size not supplied | **Provide a confirmed price, unit and ordering quantity** |
+| Duplicate flyer entry | Sausage Rolls R480 also appears in the Spring Rolls price list | **Confirm it is one product at R480 / 100** |
 | WhatsApp number | 082 840 4145 | **Verify ownership and number** |
 | Collection | Bonnie Brae | **Verify collection area, method, timing** |
 | About text | Draft with an explicit placeholder notice | Replace with owner's authentic story |
-| Gallery concepts | 5 illustrative concept cards, not orderable | Replace with real products, prices and photography when approved |
-| Product illustrations | Original SVG artwork | Replace with actual approved photography when available |
+| Old gallery concepts | Removed from the homepage; original files remain in the brand library | Keep or archive illustration assets according to brand requirements |
+| Product imagery | Eight cropped promotional images from the supplied new flyers; DIY remains illustrated | **Confirm rights to use and that the promotional photos represent actual offerings** |
 | Image from flyer | Small labelled crop of supplied flyer | Confirm public-use permission and quality |
 | Halaal status | Owner confirms all products are Halaal; provided green Halaal emblem is displayed | Confirm continued accuracy, the owner's right to use the emblem and whether any separate certification claim is appropriate (no certification claim is made on this website) |
 | Legal/privacy | Short process disclosure | Owner to confirm final privacy policy and relevant obligations |
 
-The sample gallery content is explicitly **not an offer of products**. The real kit has a visible note stating that the R60 price is from the flyer and may have changed.
+Each gallery listing is a product **enquiry**, not an availability guarantee or a binding offer. All amounts remain subject to the seller’s confirmation; doughnuts deliberately have no invented price.
 
 ## Editing the site
 
-- **Catalogue:** `src/data/products.js` — each item has `id`, `name`, `description`, `image`, `imageWidth`, `imageHeight`, `orderable`, `concept`, and optional `price`. Do not set `orderable: true` without owner approval and an actual price/offer.
+- **Catalogue:** `src/data/products.js` — each product has an `id`, `category`, `name`, description, image dimensions and pack information. A product either has a `price` or a `variants` array (`id`, `name`, `price` per advertised pack). Use `price: null` for prices not provided; never invent a value. Prices must be confirmed with the owner before launch. The exported `categories` drive the gallery filter and form groups. `getVariants`, `minPrice` and `estimateFor` centralise calculations.
 - **Phone and collection area:** `src/data/business.js` — use international digits (e.g. `27…`) for `phoneDigits`. **The footer also currently prints the phone and collection area** in `index.html`, so update them there too. A future enhancement could centralise these static footer fields.
 - **Content:** `index.html`.
 - **Main visual system:** `src/styles/main.css`; product and order components: `src/styles/components.css`; breakpoints: `src/styles/responsive.css`.
@@ -143,7 +186,7 @@ scripts/
 
 ## Accessibility & performance notes
 
-Semantic sections, labelled fields, visible focus states, keyboard-operable mobile navigation, alt text, native form validation, status announcements, image dimensions and scroll transitions with reduced-motion support are included. Product illustrations are SVG to minimize bytes and maintain crisp scaling. This is a practical foundation, not a claim of formal WCAG certification.
+Semantic sections, labelled fields, visible focus states, keyboard-operable mobile navigation, alt text, native form validation, status announcements, image dimensions and scroll transitions with reduced-motion support are included. The original DIY and hero illustrations are SVG; the eight new client-flyer image crops are optimised WebP. Lower gallery images load lazily. This is a practical foundation, not a claim of formal WCAG certification.
 
 ## Testing and known deployment limits
 
@@ -163,16 +206,16 @@ The library showcases all four logo lockups and available export formats, the ex
 
 The homepage is unmodified and has no navigation link to the brand library. The library uses `noindex, follow` and is excluded from the generated sitemap. These measures do not make it private: anyone with the URL can open the page. No authentication was requested. Keep the Halaal and flyer-use permissions and commercial artwork review requirements in mind when sharing assets.
 
-The page uses its own `src/styles/branding.css` and `src/branding.js`; all existing ordering and catalogue files are unchanged. Remove neither the `/branding/` public assets nor the `/branding/index.html` source when maintaining the project.
+The brand library retains its independent `src/styles/branding.css` and `src/branding.js`. Catalogue and ordering files are now updated independently as part of V2. Remove neither the `/branding/` public assets nor the `/branding/index.html` source when maintaining the project.
 
 ## The Signature Reveal (homepage introduction)
 
 The homepage now displays the approved Concept 1 wordmark on a warm ivory full-screen overlay. It uses inline SVG masks over the original vector paths, native CSS keyframes and a small vanilla JS lifecycle. No new dependencies are required.
 
-- Timeline: signature from 0.06–1.11s, DELIGHTS from 0.98–1.34s, caramel flourish from 1.28–1.88s, short hold, fade from 2.0–2.6s. The original hero entrance and scroll reveal setup start at the beginning of the fade.
+- Timeline: signature from 0.05–1.35s, DELIGHTS from 1.26–1.64s, caramel flourish from 1.18–1.90s, short hold, then fade from 2.0–2.6s. The original hero entrance and scroll reveal setup start at the beginning of the fade.
 - Playback: once per page session (normally a tab's lifetime, including refreshes; browser session restoration or tab duplication may retain sessionStorage). The `/branding/` entry never runs the introduction. It does not add any links to the homepage.
 - Accessibility and fallback: reduced-motion visitors skip it; Tab or Escape dismisses it immediately; the overlay is decorative and hidden from assistive technology. With JavaScript disabled or storage inaccessible it stays hidden. A 3-second watchdog in the early inline gate removes the overlay and releases the homepage if CSS animation events or the main module fail. A pagehide cleanup prevents a stale overlay when restoring from browser history. The watchdog is a fail-open deadline; unusually slow stylesheet loading can shorten the introductory sequence.
 - Modify the timing and mask paths in `src/styles/preloader.css` and the inline SVG in `index.html`. If changing the total duration, also adjust the watchdog in the head script. The logo geometry is copied verbatim from `public/branding/logo-primary.svg` and split into masks, not redrawn; update those groups when replacing the approved logo.
-- To replay during development, open DevTools Console and run `sessionStorage.removeItem('zorinas.signature-reveal.v1'); location.reload();` or open a fresh independent tab. Do not add this command to production code.
+- To replay during development, open DevTools Console and run `sessionStorage.removeItem('zorinas.signature-reveal.v3'); location.reload();` or open a fresh independent tab. Do not add this command to production code.
 
 Run `npm install`, `npm test`, `npm run dev` and `npm run build` on your development machine. On Netlify, confirm the first homepage visit plays, refresh skips, /branding works independently, and the order form remains operational. The intro does not wait for every network request; it is a branded transition, not an indication of actual loading progress.
