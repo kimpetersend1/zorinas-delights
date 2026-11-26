@@ -1,0 +1,60 @@
+/* Sweet Words — independent, opposing marquee rows. No global overrides. */
+.sweet-words {
+  --sw-paper: #f9f5ec;
+  --sw-gap: clamp(12px, 1.5vw, 22px);
+  --sw-card-width: clamp(264px, 79vw, 510px);
+  background: var(--sw-paper);
+  border-block: 1px solid var(--line);
+  overflow: hidden;
+  padding-block: clamp(68px, 8vw, 116px);
+}
+.sweet-words__intro { text-align: center; margin-bottom: clamp(30px, 4vw, 50px); }
+.sweet-words__intro .eyebrow { justify-content: center; }
+.sweet-words .display-heading { font-size: clamp(36px, 5vw, 72px); max-width: 850px; margin: 17px auto 16px; }
+.sweet-words__lead { color: var(--ink-light); font-size: 15px; line-height: 1.65; margin: 0 auto; max-width: 42ch; }
+.sweet-words__marquee { display: grid; gap: var(--sw-gap); max-width: 2400px; margin-inline: auto; }
+.sweet-words__row { min-width: 0; }
+.sweet-words__group { display: grid; gap: var(--sw-gap); max-width: 1100px; margin-inline: auto; padding-inline: var(--gutter); }
+.sweet-words__slide { min-width: 0; margin: 0; padding: clamp(20px, 2.1vw, 30px); border: 1px solid #ddcabb; border-radius: 13px; background: #fffaf2; display: flex; flex-direction: column; box-shadow: 0 3px 10px #5b382607; }
+.sweet-words__row--left .sweet-words__slide { background: #f5e9db; }
+.sweet-words__mark { display: block; height: 32px; font: 400 62px/.82 var(--display); color: var(--cinnamon); }
+.sweet-words__slide blockquote { margin: 10px 0 22px; }
+.sweet-words__quote { margin: 0; color: var(--cocoa); font: 400 clamp(17px, 1.35vw, 20px)/1.55 var(--display); letter-spacing: -.012em; overflow-wrap: anywhere; }
+.sweet-words__slide--long .sweet-words__quote { font-size: clamp(15px, 1.15vw, 17px); line-height: 1.55; }
+.sweet-words__attribution { margin-top: auto; padding-top: 15px; border-top: 1px solid #dfcfc0; color: var(--ink-light); font-size: 11px; font-weight: 700; letter-spacing: .045em; }
+.sweet-words__footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px 25px; margin-top: 27px; }
+.sweet-words__edition { display: flex; align-items: center; gap: 9px; color: var(--cinnamon); margin: 0; font-size: 10px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+.sweet-words__edition span { font-size: 15px; }
+.sweet-words__pause { min-height: 44px; display: inline-flex; align-items: center; gap: 9px; border: 1px solid #cbb4a0; border-radius: 100px; background: transparent; color: var(--cocoa); font: 600 12px var(--sans); padding: 9px 17px; cursor: pointer; transition: background .2s; }
+.sweet-words__pause:hover { background: #eeddca; }
+.sweet-words__pause-icon { font-size: 14px; }
+.sweet-words__pause[hidden], .sweet-words__copy { display: none; }
+/* Four groups share identical widths including their trailing gap. */
+.sweet-words.is-enhanced:not(.is-browsing) .sweet-words__row { overflow: hidden; mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent); }
+.sweet-words.is-enhanced:not(.is-browsing) .sweet-words__track { display: flex; width: max-content; animation: sweet-words-drift 52s linear infinite; }
+.sweet-words.is-enhanced:not(.is-browsing) .sweet-words__group { display: flex; flex: none; align-items: stretch; width: max-content; margin: 0; max-width: none; padding: 0 var(--sw-gap) 0 0; }
+.sweet-words.is-enhanced:not(.is-browsing) .sweet-words__slide { flex: 0 0 var(--sw-card-width); width: var(--sw-card-width); }
+.sweet-words.is-enhanced:not(.is-browsing) .sweet-words__row--right .sweet-words__track { animation-direction: reverse; }
+.sweet-words.is-enhanced:not(.is-browsing) .sweet-words__row--left .sweet-words__track { animation-delay: -15s; }
+@keyframes sweet-words-drift { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-25%, 0, 0); } }
+@media (hover: hover) { .sweet-words.is-enhanced .sweet-words__marquee:hover .sweet-words__track { animation-play-state: paused; } }
+.sweet-words.is-enhanced .sweet-words__marquee:focus-within .sweet-words__track { animation-play-state: paused; }
+/* Pause & browse switches to just the four original cards, with native touch scroll. */
+.sweet-words.is-browsing .sweet-words__row { overflow-x: auto; scroll-snap-type: x proximity; overscroll-behavior-inline: contain; }
+.sweet-words.is-browsing .sweet-words__group { display: flex; width: max-content; max-width: none; }
+.sweet-words.is-browsing .sweet-words__slide { flex: 0 0 var(--sw-card-width); width: var(--sw-card-width); scroll-snap-align: center; }
+@media (min-width: 768px) {
+  .sweet-words { --sw-card-width: clamp(340px, 34vw, 510px); }
+  .sweet-words__group, .sweet-words.is-browsing .sweet-words__group { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: min(100%, 1100px); }
+  .sweet-words.is-browsing .sweet-words__slide { width: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sweet-words.is-enhanced:not(.is-browsing) .sweet-words__row, .sweet-words.is-browsing .sweet-words__row { overflow: visible; mask-image: none; }
+  .sweet-words.is-enhanced:not(.is-browsing) .sweet-words__track { display: block; width: auto; animation: none; transform: none; }
+  .sweet-words.is-enhanced:not(.is-browsing) .sweet-words__group, .sweet-words.is-browsing .sweet-words__group { display: grid; width: min(100%, 1100px); padding-inline: var(--gutter); margin-inline: auto; }
+  .sweet-words.is-enhanced:not(.is-browsing) .sweet-words__slide, .sweet-words.is-browsing .sweet-words__slide { width: auto; }
+  .sweet-words.is-enhanced:not(.is-browsing) .sweet-words__copy, .sweet-words__pause { display: none; }
+}
+
+/* Browsing keeps only the four unique reviews, at every breakpoint. */
+.sweet-words.is-browsing .sweet-words__copy { display: none; }
